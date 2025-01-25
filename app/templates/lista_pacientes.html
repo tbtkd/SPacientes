@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Pacientes{% endblock %}
+
+{% block content %}
+<h2>Lista de Pacientes</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Correo</th>
+            <th>Ciudad</th>
+            <th>Estatus</th>
+            <th>Último Pago</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for paciente in pacientes %}
+        <tr>
+            <td>{{ paciente['nombre'] }}</td>
+            <td>{{ paciente['apellido_paterno'] }} {{ paciente['apellido_materno'] }}</td>
+            <td>{{ paciente['correo'] }}</td>
+            <td>{{ paciente['ciudad'] }}</td>
+            <td>{{ paciente['estatus'] }}</td>
+            <td>{{ paciente['ultimo_pago'] if paciente['ultimo_pago'] else 'No registrado' }}</td>
+            <td>
+                <a href="{{ url_for('pacientes.detalle_paciente', id=paciente['id']) }}">Ver</a>
+                <a href="{{ url_for('pacientes.editar_paciente', id=paciente['id']) }}">Editar</a>
+                <a href="{{ url_for('historial_clinico.ver_crear_historial', paciente_id=paciente['id']) }}">Historial Clínico</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sistema de Pacientes{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container" x-data="{ menuOpen: false }">
+        <nav class="sidebar">
+            <h1>Sistema de Pacientes</h1>
+            <button @click="menuOpen = !menuOpen" class="menu-toggle">
+                ☰ Menú
+            </button>
+            <ul :class="{ 'show': menuOpen }">
+                <li><a href="{{ url_for('main.index') }}"><i class="fas fa-home"></i> Inicio</a></li>
+                <li x-data="{ open: false }">
+                    <a @click="open = !open" class="dropdown-toggle"><i class="fas fa-user-plus"></i> Altas</a>
+                    <ul x-show="open" class="submenu">
+                        <li><a href="{{ url_for('pacientes.nuevo_paciente') }}"><i class="fas fa-user-plus"></i> Alta de Paciente</a></li>
+                        <li><a href="{{ url_for('pacientes.lista_pacientes') }}"><i class="fas fa-list"></i> Lista de Pacientes</a></li>
+                    </ul>
+                </li>
+                <li x-data="{ open: false }">
+                    <a @click="open = !open" class="dropdown-toggle"><i class="fas fa-notes-medical"></i> Historial Clínico</a>
+                    <ul x-show="open" class="submenu">
+                        <li><a href="{{ url_for('historial_clinico.lista_historiales') }}"><i class="fas fa-clipboard-list"></i> Lista de Historiales</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <main class="content">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</body>
+</html>
+

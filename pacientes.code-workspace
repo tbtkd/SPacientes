@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "SistemaPacientes",
+			"path": "."
+		},
+		{
+			"name": "AlumnosTB",
+			"path": "../AlumnosTB"
+		}
+	],
+	"settings": {}
+}

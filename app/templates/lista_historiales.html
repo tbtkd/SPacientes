@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Historiales Clínicos{% endblock %}
+
+{% block content %}
+<h2>Lista de Historiales Clínicos</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Paciente</th>
+            <th>Padecimientos</th>
+            <th>Actividad Física</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for historial in historiales %}
+        <tr>
+            <td>{{ historial['nombre'] }} {{ historial['apellido_paterno'] }} {{ historial['apellido_materno'] }}</td>
+            <td>{{ historial['padecimientos'] }}</td>
+            <td>{{ historial['tipo_actividad_fisica'] }} - {{ historial['frecuencia_actividad_fisica'] }}</td>
+            <td>
+                <a href="{{ url_for('historial_clinico.ver_crear_historial', paciente_id=historial['paciente_id']) }}">Ver/Editar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
