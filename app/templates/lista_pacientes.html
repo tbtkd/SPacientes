@@ -23,7 +23,7 @@
             <td>{{ paciente['apellido_paterno'] }} {{ paciente['apellido_materno'] }}</td>
             <td>{{ paciente['correo'] }}</td>
             <td>{{ paciente['ciudad'] }}</td>
-            <td>{{ paciente['estatus'] }}</td>
+            <td>{{ paciente['status'] }}</td>
             <td>{{ paciente['ultimo_pago'] if paciente['ultimo_pago'] else 'No registrado' }}</td>
             <td>
                 <a href="{{ url_for('pacientes.detalle_paciente', id=paciente['id']) }}">Ver</a>

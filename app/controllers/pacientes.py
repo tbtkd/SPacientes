@@ -11,9 +11,9 @@ def nuevo_paciente():
         db = get_db()
         try:
             db.execute(
-                'INSERT INTO pacientes (nombre, apellido_paterno, apellido_materno, fecha_nacimiento, telefono, correo, ciudad) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                'INSERT INTO pacientes (nombre, apellido_paterno, apellido_materno, fecha_nacimiento, telefono, correo, ciudad, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
                 (request.form['nombre'], request.form['apellido_paterno'], request.form['apellido_materno'],
-                 request.form['fecha_nacimiento'], request.form['telefono'], request.form['correo'], request.form['ciudad'])
+                request.form['fecha_nacimiento'], request.form['telefono'], request.form['correo'], request.form['ciudad'], 'Activo')
             )
             db.commit()
             flash('Paciente registrado exitosamente', 'success')
@@ -28,7 +28,7 @@ def nuevo_paciente():
 def lista_pacientes():
     pacientes = query_db('''
         SELECT p.*, 
-               (SELECT fecha_pago FROM pagos WHERE paciente_id = p.id ORDER BY fecha_pago DESC LIMIT 1) as ultimo_pago
+            (SELECT fecha_pago FROM pagos WHERE paciente_id = p.id ORDER BY fecha_pago DESC LIMIT 1) as ultimo_pago
         FROM pacientes p
     ''')
     return render_template('lista_pacientes.html', pacientes=pacientes)
@@ -53,10 +53,10 @@ def editar_paciente(id):
         db = get_db()
         try:
             db.execute(
-                'UPDATE pacientes SET nombre = ?, apellido_paterno = ?, apellido_materno = ?, fecha_nacimiento = ?, telefono = ?, correo = ?, ciudad = ?, estatus = ? WHERE id = ?',
+                'UPDATE pacientes SET nombre = ?, apellido_paterno = ?, apellido_materno = ?, fecha_nacimiento = ?, telefono = ?, correo = ?, ciudad = ?, status = ? WHERE id = ?',
                 (request.form['nombre'], request.form['apellido_paterno'], request.form['apellido_materno'],
-                 request.form['fecha_nacimiento'], request.form['telefono'], request.form['correo'], 
-                 request.form['ciudad'], request.form['estatus'], id)
+                request.form['fecha_nacimiento'], request.form['telefono'], request.form['correo'], 
+                request.form['ciudad'], request.form['estatus'], id)
             )
             db.commit()
             flash('Información del paciente actualizada exitosamente', 'success')

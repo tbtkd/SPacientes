@@ -12,7 +12,7 @@
     <p><strong>Teléfono:</strong> {{ paciente['telefono'] }}</p>
     <p><strong>Correo:</strong> {{ paciente['correo'] }}</p>
     <p><strong>Ciudad:</strong> {{ paciente['ciudad'] }}</p>
-    <p><strong>Estatus:</strong> {{ paciente['estatus'] }}</p>
+    <p><strong>Estatus:</strong> {{ paciente['status'] }}</p>
     <p><strong>Último Pago:</strong> {{ ultimo_pago['fecha_pago'] if ultimo_pago else 'No registrado' }}</p>
 </div>
 <a href="{{ url_for('pacientes.editar_paciente', id=paciente['id']) }}" class="btn">Editar Paciente</a>
