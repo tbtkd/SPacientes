@@ -1,4 +1,4 @@
-# Sistema de Alta de Pacientes
+# Sistema de Alta de Pacientes (V16)
 
 Este proyecto es un sistema de gestión de pacientes desarrollado con Python, Flask y SQLite, siguiendo el patrón de diseño MVC.
 
