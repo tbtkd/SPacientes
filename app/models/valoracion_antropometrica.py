@@ -9,15 +9,16 @@ class ValoracionAntropometrica:
                 INSERT INTO valoracion_antropometrica (
                     paciente_id, numero_cita, fecha, estatura, peso, imc, grasa,
                     cintura, torax, brazo, cadera, pierna, pantorrilla,
+                    tension_arterial, frecuencia_cardiaca,
                     bicep, tricep, suprailiaco, subescapular, femoral, porcentaje_grasa
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 paciente_id, datos['numero_cita'], datos['fecha'], datos['estatura'],
                 datos['peso'], datos['imc'], datos['grasa'], datos['cintura'],
                 datos['torax'], datos['brazo'], datos['cadera'], datos['pierna'],
-                datos['pantorrilla'], datos['bicep'], datos['tricep'],
-                datos['suprailiaco'], datos['subescapular'], datos['femoral'],
-                datos['porcentaje_grasa']
+                datos['pantorrilla'], datos['tension_arterial'], datos['frecuencia_cardiaca'],
+                datos['bicep'], datos['tricep'], datos['suprailiaco'], datos['subescapular'],
+                datos['femoral'], datos['porcentaje_grasa']
             ))
             db.commit()
             return True, "Valoración antropométrica registrada correctamente."
@@ -50,4 +51,8 @@ class ValoracionAntropometrica:
             JOIN pacientes p ON va.paciente_id = p.id
             ORDER BY va.fecha DESC
         ''')
+
+    @staticmethod
+    def obtener_por_id(valoracion_id):
+        return query_db('SELECT * FROM valoracion_antropometrica WHERE id = ?', [valoracion_id], one=True)
 

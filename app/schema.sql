@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS pacientes (
     correo TEXT UNIQUE NOT NULL,
     ciudad TEXT NOT NULL,
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status TEXT CHECK(status IN ('activo', 'cancelado', 'baja')) DEFAULT 'activo'
+    estatus TEXT CHECK(estatus IN ('activo', 'cancelado', 'baja')) DEFAULT 'activo'
 );
 
 -- Verificar si la tabla historial_clinico existe
@@ -39,8 +39,8 @@ CREATE TABLE IF NOT EXISTS pagos (
     FOREIGN KEY (paciente_id) REFERENCES pacientes (id)
 );
 
--- Crear tabla para valoración antropométrica
-CREATE TABLE IF NOT EXISTS valoracion_antropometrica (
+-- Modificar la tabla valoracion_antropometrica
+CREATE TABLE IF NOT EXISTS valoracion_antropometrica_nueva (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     paciente_id INTEGER NOT NULL,
     numero_cita INTEGER NOT NULL,
@@ -55,6 +55,8 @@ CREATE TABLE IF NOT EXISTS valoracion_antropometrica (
     cadera FLOAT NOT NULL,
     pierna FLOAT NOT NULL,
     pantorrilla FLOAT NOT NULL,
+    tension_arterial TEXT NOT NULL,
+    frecuencia_cardiaca INTEGER NOT NULL,
     bicep FLOAT NOT NULL,
     tricep FLOAT NOT NULL,
     suprailiaco FLOAT NOT NULL,
@@ -63,4 +65,24 @@ CREATE TABLE IF NOT EXISTS valoracion_antropometrica (
     porcentaje_grasa FLOAT NOT NULL,
     FOREIGN KEY (paciente_id) REFERENCES pacientes (id)
 );
+
+-- Copiar los datos existentes a la nueva tabla
+INSERT INTO valoracion_antropometrica_nueva (
+    id, paciente_id, numero_cita, fecha, estatura, peso, imc, grasa,
+    cintura, torax, brazo, cadera, pierna, pantorrilla,
+    tension_arterial, frecuencia_cardiaca,
+    bicep, tricep, suprailiaco, subescapular, femoral, porcentaje_grasa
+)
+SELECT 
+    id, paciente_id, numero_cita, fecha, estatura, peso, imc, grasa,
+    cintura, torax, brazo, cadera, pierna, pantorrilla,
+    '120/80', 70, -- Valores por defecto para tension_arterial y frecuencia_cardiaca
+    bicep, tricep, suprailiaco, subescapular, femoral, porcentaje_grasa
+FROM valoracion_antropometrica;
+
+-- Eliminar la tabla antigua
+DROP TABLE valoracion_antropometrica;
+
+-- Renombrar la nueva tabla
+ALTER TABLE valoracion_antropometrica_nueva RENAME TO valoracion_antropometrica;
 
