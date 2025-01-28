@@ -11,23 +11,30 @@
 <body>
     <div class="container" x-data="{ menuOpen: false }">
         <nav class="sidebar">
-            <h1>Sistema de Pacientes</h1>
-            <button @click="menuOpen = !menuOpen" class="menu-toggle">
+            <h1 class="sidebar__title">Sistema de Pacientes</h1>
+            <button @click="menuOpen = !menuOpen" class="sidebar__toggle">
                 ☰ Menú
             </button>
-            <ul :class="{ 'show': menuOpen }">
-                <li><a href="{{ url_for('main.index') }}"><i class="fas fa-home"></i> Inicio</a></li>
-                <li x-data="{ open: false }">
-                    <a @click="open = !open" class="dropdown-toggle"><i class="fas fa-user-plus"></i> Altas</a>
-                    <ul x-show="open" class="submenu">
-                        <li><a href="{{ url_for('pacientes.nuevo_paciente') }}"><i class="fas fa-user-plus"></i> Alta de Paciente</a></li>
-                        <li><a href="{{ url_for('pacientes.lista_pacientes') }}"><i class="fas fa-list"></i> Lista de Pacientes</a></li>
+            <ul class="sidebar__list" :class="{ 'sidebar__list--show': menuOpen }">
+                <li class="sidebar__item"><a href="{{ url_for('main.index') }}" class="sidebar__link"><i class="fas fa-home sidebar__icon"></i> Inicio</a></li>
+                <li class="sidebar__item" x-data="{ open: false }">
+                    <a @click="open = !open" class="sidebar__link sidebar__dropdown"><i class="fas fa-user-plus sidebar__icon"></i> Altas</a>
+                    <ul x-show="open" class="sidebar__submenu">
+                        <li class="sidebar__item"><a href="{{ url_for('pacientes.nuevo_paciente') }}" class="sidebar__link"><i class="fas fa-user-plus sidebar__icon"></i> Alta de Paciente</a></li>
+                        <li class="sidebar__item"><a href="{{ url_for('pacientes.lista_pacientes') }}" class="sidebar__link"><i class="fas fa-list sidebar__icon"></i> Lista de Pacientes</a></li>
                     </ul>
                 </li>
-                <li x-data="{ open: false }">
-                    <a @click="open = !open" class="dropdown-toggle"><i class="fas fa-notes-medical"></i> Historial Clínico</a>
-                    <ul x-show="open" class="submenu">
-                        <li><a href="{{ url_for('historial_clinico.lista_historiales') }}"><i class="fas fa-clipboard-list"></i> Lista de Historiales</a></li>
+                <li class="sidebar__item" x-data="{ open: false }">
+                    <a @click="open = !open" class="sidebar__link sidebar__dropdown"><i class="fas fa-notes-medical sidebar__icon"></i> Historial Clínico</a>
+                    <ul x-show="open" class="sidebar__submenu">
+                        <li class="sidebar__item"><a href="{{ url_for('historial_clinico.lista_historiales') }}" class="sidebar__link"><i class="fas fa-clipboard-list sidebar__icon"></i> Lista de Historiales</a></li>
+                    </ul>
+                </li>
+                <li class="sidebar__item" x-data="{ open: false }">
+                    <a @click="open = !open" class="sidebar__link sidebar__dropdown"><i class="fas fa-weight sidebar__icon"></i> Valoración Antropométrica</a>
+                    <ul x-show="open" class="sidebar__submenu">
+                        <li class="sidebar__item"><a href="{{ url_for('pacientes.lista_pacientes') }}" class="sidebar__link"><i class="fas fa-plus-circle sidebar__icon"></i> Nueva Valoración</a></li>
+                        <li class="sidebar__item"><a href="{{ url_for('valoracion.lista_valoraciones', paciente_id=0) }}" class="sidebar__link"><i class="fas fa-list sidebar__icon"></i> Lista de Valoraciones</a></li>
                     </ul>
                 </li>
             </ul>
@@ -36,13 +43,14 @@
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
-                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                        <div class="alert alert--{{ category }}">{{ message }}</div>
                     {% endfor %}
                 {% endif %}
             {% endwith %}
             {% block content %}{% endblock %}
         </main>
     </div>
+    {% block scripts %}{% endblock %}
 </body>
 </html>
 

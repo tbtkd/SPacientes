@@ -1,0 +1,62 @@
+from flask import Blueprint, render_template, request, redirect, url_for, flash
+from app.models.valoracion_antropometrica import ValoracionAntropometrica
+from app.models.paciente import Paciente
+
+valoracion = Blueprint('valoracion', __name__)
+
+@valoracion.route('/pacientes/<int:paciente_id>/valoracion', methods=['GET', 'POST'])
+def nueva_valoracion(paciente_id):
+    paciente = Paciente.obtener_por_id(paciente_id)
+    if not paciente:
+        flash('Paciente no encontrado', 'error')
+        return redirect(url_for('pacientes.lista_pacientes'))
+
+    if request.method == 'POST':
+        datos = {
+            'numero_cita': request.form['numero_cita'],
+            'fecha': request.form['fecha'],
+            'estatura': request.form['estatura'],
+            'peso': request.form['peso'],
+            'imc': request.form['imc'],
+            'grasa': request.form['grasa'],
+            'cintura': request.form['cintura'],
+            'torax': request.form['torax'],
+            'brazo': request.form['brazo'],
+            'cadera': request.form['cadera'],
+            'pierna': request.form['pierna'],
+            'pantorrilla': request.form['pantorrilla'],
+            'bicep': request.form['bicep'],
+            'tricep': request.form['tricep'],
+            'suprailiaco': request.form['suprailiaco'],
+            'subescapular': request.form['subescapular'],
+            'femoral': request.form.get('femoral', ''),  # Opcional para hombres
+            'porcentaje_grasa': request.form['porcentaje_grasa']
+        }
+
+        exito, mensaje = ValoracionAntropometrica.crear(paciente_id, datos)
+        if exito:
+            flash(mensaje, 'success')
+            return redirect(url_for('valoracion.lista_valoraciones', paciente_id=paciente_id))
+        else:
+            flash(mensaje, 'error')
+
+    return render_template('nueva_valoracion.html', paciente=paciente)
+
+@valoracion.route('/pacientes/<int:paciente_id>/valoraciones')
+def lista_valoraciones(paciente_id):
+    if paciente_id == 0:
+        return redirect(url_for('valoracion.todas_valoraciones'))
+    
+    paciente = Paciente.obtener_por_id(paciente_id)
+    if not paciente:
+        flash('Paciente no encontrado', 'error')
+        return redirect(url_for('pacientes.lista_pacientes'))
+
+    valoraciones = ValoracionAntropometrica.obtener_por_paciente(paciente_id)
+    return render_template('lista_valoraciones.html', paciente=paciente, valoraciones=valoraciones)
+
+@valoracion.route('/valoraciones')
+def todas_valoraciones():
+    valoraciones = ValoracionAntropometrica.obtener_todas()
+    return render_template('todas_valoraciones.html', valoraciones=valoraciones)
+

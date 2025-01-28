@@ -3,6 +3,9 @@
 		{
 			"name": "SistemaPacientes",
 			"path": "."
+		},
+		{
+			"path": "../../LMStudio/SCPacientes"
 		}
 	],
 	"settings": {}

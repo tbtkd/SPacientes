@@ -1,16 +1,17 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-from app.db import get_db, query_db, get_historial_clinico, crear_historial_clinico, actualizar_historial_clinico
+from app.models.paciente import Paciente
+from app.models.historial_clinico import HistorialClinico
 
 historial_clinico = Blueprint('historial_clinico', __name__)
 
 @historial_clinico.route('/pacientes/<int:paciente_id>/historial-clinico', methods=['GET', 'POST'])
 def ver_crear_historial(paciente_id):
-    paciente = query_db('SELECT * FROM pacientes WHERE id = ?', [paciente_id], one=True)
+    paciente = Paciente.obtener_por_id(paciente_id)
     if not paciente:
         flash('Paciente no encontrado', 'error')
         return redirect(url_for('pacientes.lista_pacientes'))
 
-    historial = get_historial_clinico(paciente_id)
+    historial = HistorialClinico.obtener_por_paciente_id(paciente_id)
 
     if request.method == 'POST':
         datos = {
@@ -29,10 +30,10 @@ def ver_crear_historial(paciente_id):
         }
 
         if historial:
-            actualizar_historial_clinico(paciente_id, datos)
+            HistorialClinico.actualizar(paciente_id, datos)
             flash('Historial clínico actualizado exitosamente', 'success')
         else:
-            crear_historial_clinico(paciente_id, datos)
+            HistorialClinico.crear(paciente_id, datos)
             flash('Historial clínico creado exitosamente', 'success')
 
         return redirect(url_for('historial_clinico.ver_crear_historial', paciente_id=paciente_id))
@@ -47,10 +48,6 @@ def ver_crear_historial(paciente_id):
 
 @historial_clinico.route('/historial-clinico')
 def lista_historiales():
-    historiales = query_db('''
-        SELECT h.*, p.nombre, p.apellido_paterno, p.apellido_materno
-        FROM historial_clinico h
-        JOIN pacientes p ON h.paciente_id = p.id
-    ''')
+    historiales = HistorialClinico.obtener_todos()
     return render_template('lista_historiales.html', historiales=historiales)
 

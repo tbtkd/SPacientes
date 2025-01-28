@@ -4,58 +4,58 @@
 
 {% block content %}
 <h2>Historial Clínico de {{ paciente['nombre'] }} {{ paciente['apellido_paterno'] }}</h2>
-<form method="POST">
+<form id="formHistorialClinico" method="POST">
     <div x-data="{ activeTab: 'actividad-fisica' }">
         <div class="tabs">
-            <button type="button" @click="activeTab = 'actividad-fisica'" :class="{ 'active': activeTab === 'actividad-fisica' }">Actividad Física</button>
-            <button type="button" @click="activeTab = 'alimentacion'" :class="{ 'active': activeTab === 'alimentacion' }">Alimentación</button>
-            <button type="button" @click="activeTab = 'historial-medico'" :class="{ 'active': activeTab === 'historial-medico' }">Historial Médico</button>
+            <button type="button" @click="activeTab = 'actividad-fisica'" :class="{ 'tabs__button--active': activeTab === 'actividad-fisica' }" class="tabs__button">Actividad Física</button>
+            <button type="button" @click="activeTab = 'alimentacion'" :class="{ 'tabs__button--active': activeTab === 'alimentacion' }" class="tabs__button">Alimentación</button>
+            <button type="button" @click="activeTab = 'historial-medico'" :class="{ 'tabs__button--active': activeTab === 'historial-medico' }" class="tabs__button">Historial Médico</button>
         </div>
 
         <div x-show="activeTab === 'actividad-fisica'">
             <h3>Actividad Física</h3>
             <div class="form-group">
-                <label for="tipo_actividad_fisica">Tipo:</label>
-                <input type="text" id="tipo_actividad_fisica" name="tipo_actividad_fisica" value="{{ historial['tipo_actividad_fisica'] if historial else '' }}">
+                <label for="tipo_actividad_fisica" class="form-label">Tipo:</label>
+                <input type="text" id="tipo_actividad_fisica" name="tipo_actividad_fisica" class="form-input" value="{{ historial['tipo_actividad_fisica'] if historial else '' }}">
             </div>
             <div class="form-group">
-                <label for="frecuencia_actividad_fisica">Frecuencia:</label>
-                <input type="text" id="frecuencia_actividad_fisica" name="frecuencia_actividad_fisica" value="{{ historial['frecuencia_actividad_fisica'] if historial else '' }}">
+                <label for="frecuencia_actividad_fisica" class="form-label">Frecuencia:</label>
+                <input type="text" id="frecuencia_actividad_fisica" name="frecuencia_actividad_fisica" class="form-input" value="{{ historial['frecuencia_actividad_fisica'] if historial else '' }}">
             </div>
             <div class="form-group">
-                <label for="tiempo_actividad_fisica">Tiempo:</label>
-                <input type="text" id="tiempo_actividad_fisica" name="tiempo_actividad_fisica" value="{{ historial['tiempo_actividad_fisica'] if historial else '' }}">
+                <label for="tiempo_actividad_fisica" class="form-label">Tiempo:</label>
+                <input type="text" id="tiempo_actividad_fisica" name="tiempo_actividad_fisica" class="form-input" value="{{ historial['tiempo_actividad_fisica'] if historial else '' }}">
             </div>
         </div>
 
         <div x-show="activeTab === 'alimentacion'">
             <h3>Alimentación</h3>
             <div class="form-group">
-                <label for="numero_comidas_diarias">Número de veces que come al día:</label>
-                <input type="number" id="numero_comidas_diarias" name="numero_comidas_diarias" value="{{ historial['numero_comidas_diarias'] if historial else '' }}">
+                <label for="numero_comidas_diarias" class="form-label">Número de veces que come al día:</label>
+                <input type="number" id="numero_comidas_diarias" name="numero_comidas_diarias" class="form-input" value="{{ historial['numero_comidas_diarias'] if historial else '' }}">
             </div>
             <div class="form-group">
-                <label for="alimentos_normales">Alimentos que consume normalmente:</label>
-                <textarea id="alimentos_normales" name="alimentos_normales" rows="3">{{ historial['alimentos_normales'] if historial else '' }}</textarea>
+                <label for="alimentos_normales" class="form-label">Alimentos que consume normalmente:</label>
+                <textarea id="alimentos_normales" name="alimentos_normales" class="form-input" rows="3">{{ historial['alimentos_normales'] if historial else '' }}</textarea>
             </div>
             <div class="form-group">
-                <label for="alimentos_no_gustados">Alimentos que no le gustan:</label>
-                <textarea id="alimentos_no_gustados" name="alimentos_no_gustados" rows="3">{{ historial['alimentos_no_gustados'] if historial else '' }}</textarea>
+                <label for="alimentos_no_gustados" class="form-label">Alimentos que no le gustan:</label>
+                <textarea id="alimentos_no_gustados" name="alimentos_no_gustados" class="form-input" rows="3">{{ historial['alimentos_no_gustados'] if historial else '' }}</textarea>
             </div>
         </div>
 
         <div x-show="activeTab === 'historial-medico'">
             <h3>Historial Médico</h3>
             <div class="form-group">
-                <label for="cirugias">Cirugía(s):</label>
-                <textarea id="cirugias" name="cirugias" rows="3">{{ historial['cirugias'] if historial else '' }}</textarea>
+                <label for="cirugias" class="form-label">Cirugía(s):</label>
+                <textarea id="cirugias" name="cirugias" class="form-input" rows="3">{{ historial['cirugias'] if historial else '' }}</textarea>
             </div>
             <div class="form-group">
-                <label>Padecimiento(s):</label>
+                <label class="form-label">Padecimiento(s):</label>
                 <div class="checkbox-group">
                     {% for opcion in padecimientos_opciones %}
-                        <label>
-                            <input type="checkbox" name="padecimientos" value="{{ opcion }}" 
+                        <label class="checkbox-group__label">
+                            <input type="checkbox" name="padecimientos" value="{{ opcion }}" class="checkbox-group__input"
                                 {% if historial and opcion in historial['padecimientos'].split(',') %}checked{% endif %}>
                             {{ opcion }}
                         </label>
@@ -63,24 +63,41 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="medicamentos">Medicamentos:</label>
-                <textarea id="medicamentos" name="medicamentos" rows="3">{{ historial['medicamentos'] if historial else '' }}</textarea>
+                <label for="medicamentos" class="form-label">Medicamentos:</label>
+                <textarea id="medicamentos" name="medicamentos" class="form-input" rows="3">{{ historial['medicamentos'] if historial else '' }}</textarea>
             </div>
             <div class="form-group">
-                <label for="suplementos">Suplementos o complementos:</label>
-                <textarea id="suplementos" name="suplementos" rows="3">{{ historial['suplementos'] if historial else '' }}</textarea>
+                <label for="suplementos" class="form-label">Suplementos o complementos:</label>
+                <textarea id="suplementos" name="suplementos" class="form-input" rows="3">{{ historial['suplementos'] if historial else '' }}</textarea>
             </div>
             <div class="form-group">
-                <label for="enfermedades_previas">Enfermedades previas:</label>
-                <textarea id="enfermedades_previas" name="enfermedades_previas" rows="3">{{ historial['enfermedades_previas'] if historial else '' }}</textarea>
+                <label for="enfermedades_previas" class="form-label">Enfermedades previas:</label>
+                <textarea id="enfermedades_previas" name="enfermedades_previas" class="form-input" rows="3">{{ historial['enfermedades_previas'] if historial else '' }}</textarea>
             </div>
             <div class="form-group">
-                <label for="enfermedades_actuales">Enfermedades actuales:</label>
-                <textarea id="enfermedades_actuales" name="enfermedades_actuales" rows="3">{{ historial['enfermedades_actuales'] if historial else '' }}</textarea>
+                <label for="enfermedades_actuales" class="form-label">Enfermedades actuales:</label>
+                <textarea id="enfermedades_actuales" name="enfermedades_actuales" class="form-input" rows="3">{{ historial['enfermedades_actuales'] if historial else '' }}</textarea>
             </div>
         </div>
     </div>
-    <button type="submit">Guardar Historial Clínico</button>
+    <button type="submit" class="form-button">Guardar Historial Clínico</button>
 </form>
+{% endblock %}
+
+{% block scripts %}
+<script type="module">
+    import { validarFormularioHistorialClinico } from "{{ url_for('static', filename='js/validaciones/historialClinicoValidacion.js') }}";
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("formHistorialClinico");
+        if (form) {
+            form.addEventListener("submit", (event) => {
+                if (!validarFormularioHistorialClinico()) {
+                    event.preventDefault();
+                }
+            });
+        }
+    });
+</script>
 {% endblock %}
 

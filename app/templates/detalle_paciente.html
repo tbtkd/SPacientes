@@ -15,16 +15,17 @@
     <p><strong>Estatus:</strong> {{ paciente['status'] }}</p>
     <p><strong>Último Pago:</strong> {{ ultimo_pago['fecha_pago'] if ultimo_pago else 'No registrado' }}</p>
 </div>
-<a href="{{ url_for('pacientes.editar_paciente', id=paciente['id']) }}" class="btn">Editar Paciente</a>
-<a href="{{ url_for('historial_clinico.ver_crear_historial', paciente_id=paciente['id']) }}" class="btn">Ver/Editar Historial Clínico</a>
+<a href="{{ url_for('pacientes.editar_paciente', id=paciente['id']) }}" class="action-button">Editar Paciente</a>
+<a href="{{ url_for('historial_clinico.ver_crear_historial', paciente_id=paciente['id']) }}" class="action-button">Ver/Editar Historial Clínico</a>
+<a href="{{ url_for('valoracion.nueva_valoracion', paciente_id=paciente['id']) }}" class="action-button">Nueva Valoración Antropométrica</a>
 
 <h3>Registrar Pago</h3>
 <form action="{{ url_for('pacientes.registrar_pago_paciente', id=paciente['id']) }}" method="POST">
     <div class="form-group">
-        <label for="fecha_pago">Fecha de Pago:</label>
-        <input type="date" id="fecha_pago" name="fecha_pago" required>
+        <label for="fecha_pago" class="form-label">Fecha de Pago:</label>
+        <input type="date" id="fecha_pago" name="fecha_pago" class="form-input" required>
     </div>
-    <button type="submit">Registrar Pago</button>
+    <button type="submit" class="form-button">Registrar Pago</button>
 </form>
 {% endblock %}
 

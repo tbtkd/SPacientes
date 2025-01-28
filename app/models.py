@@ -1,17 +1,40 @@
-from app import db
+from app.db import get_db, query_db
 from datetime import datetime
 
-class Paciente(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(100), nullable=False)
-    apellido_paterno = db.Column(db.String(100), nullable=False)
-    apellido_materno = db.Column(db.String(100), nullable=False)
-    fecha_nacimiento = db.Column(db.Date, nullable=False)
-    telefono = db.Column(db.String(20), nullable=False)
-    correo = db.Column(db.String(120), unique=True, nullable=False)
-    ciudad = db.Column(db.String(100), nullable=False)
-    fecha_registro = db.Column(db.DateTime, default=datetime.now)
+class Paciente:
+    @staticmethod
+    def crear(nombre, apellido_paterno, apellido_materno, fecha_nacimiento, telefono, correo, ciudad):
+        db = get_db()
+        db.execute(
+            'INSERT INTO pacientes (nombre, apellido_paterno, apellido_materno, fecha_nacimiento, telefono, correo, ciudad) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            (nombre, apellido_paterno, apellido_materno, fecha_nacimiento, telefono, correo, ciudad)
+        )
+        db.commit()
 
-    def __repr__(self):
-        return f'<Paciente {self.nombre} {self.apellido_paterno}>'
+    @staticmethod
+    def obtener_todos():
+        return query_db('''
+            SELECT p.*, 
+                   (SELECT fecha_pago FROM pagos WHERE paciente_id = p.id ORDER BY fecha_pago DESC LIMIT 1) as ultimo_pago
+            FROM pacientes p
+        ''')
+
+    @staticmethod
+    def obtener_por_id(id):
+        return query_db('SELECT * FROM pacientes WHERE id = ?', [id], one=True)
+
+    @staticmethod
+    def actualizar(id, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, telefono, correo, ciudad, status):
+        db = get_db()
+        db.execute(
+            'UPDATE pacientes SET nombre = ?, apellido_paterno = ?, apellido_materno = ?, fecha_nacimiento = ?, telefono = ?, correo = ?, ciudad = ?, estatus = ? WHERE id = ?',
+            (nombre, apellido_paterno, apellido_materno, fecha_nacimiento, telefono, correo, ciudad, status, id)
+        )
+        db.commit()
+
+    @staticmethod
+    def actualizar_estatus(paciente_id, status):
+        db = get_db()
+        db.execute('UPDATE pacientes SET estatus = ? WHERE id = ?', (status, paciente_id))
+        db.commit()
 
