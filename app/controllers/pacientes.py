@@ -25,8 +25,9 @@ def nuevo_paciente():
 
 @pacientes.route('/pacientes')
 def lista_pacientes():
-    pacientes = Paciente.obtener_todos()
-    return render_template('lista_pacientes.html', pacientes=pacientes)
+    busqueda = request.args.get('busqueda', '')
+    pacientes = Paciente.buscar(busqueda)
+    return render_template('lista_pacientes.html', pacientes=pacientes, busqueda=busqueda)
 
 @pacientes.route('/pacientes/<int:id>')
 def detalle_paciente(id):

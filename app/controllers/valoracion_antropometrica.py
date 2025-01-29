@@ -73,9 +73,9 @@ def detalle_valoracion(valoracion_id):
     historial_valoraciones = ValoracionAntropometrica.obtener_por_paciente(valoracion['paciente_id'])
     
     return render_template('detalle_valoracion.html', 
-                           valoracion=valoracion, 
-                           paciente=paciente,
-                           historial_valoraciones=historial_valoraciones)
+                            valoracion=valoracion, 
+                            paciente=paciente,
+                            historial_valoraciones=historial_valoraciones)
 
 @valoracion.route('/valoraciones/<int:valoracion_id>/editar', methods=['GET', 'POST'])
 def editar_valoracion(valoracion_id):
@@ -133,4 +133,3 @@ def eliminar_valoracion(valoracion_id):
     else:
         flash(mensaje, 'error')
         return redirect(url_for('valoracion.detalle_valoracion', valoracion_id=valoracion_id))
-

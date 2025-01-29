@@ -16,6 +16,7 @@ def create_app():
     from app.controllers.pacientes import pacientes
     from app.controllers.historial_clinico import historial_clinico
     from app.controllers.valoracion_antropometrica import valoracion
+    
     app.register_blueprint(main)
     app.register_blueprint(pacientes)
     app.register_blueprint(historial_clinico)

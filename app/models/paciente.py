@@ -38,3 +38,12 @@ class Paciente:
         db.execute('UPDATE pacientes SET estatus = ? WHERE id = ?', (status, paciente_id))
         db.commit()
 
+    @staticmethod
+    def buscar(busqueda):
+        return query_db('''
+            SELECT p.*, 
+                    (SELECT fecha_pago FROM pagos WHERE paciente_id = p.id ORDER BY fecha_pago DESC LIMIT 1) as ultimo_pago
+            FROM pacientes p
+            WHERE p.nombre LIKE ? OR p.apellido_paterno LIKE ? OR p.apellido_materno LIKE ?
+            ORDER BY p.nombre, p.apellido_paterno, p.apellido_materno
+        ''', ['%' + busqueda + '%'] * 3)
