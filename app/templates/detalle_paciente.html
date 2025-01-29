@@ -12,20 +12,191 @@
     <p><strong>Teléfono:</strong> {{ paciente['telefono'] }}</p>
     <p><strong>Correo:</strong> {{ paciente['correo'] }}</p>
     <p><strong>Ciudad:</strong> {{ paciente['ciudad'] }}</p>
-    <p><strong>Estatus:</strong> {{ paciente['status'] }}</p>
+    <p><strong>Estatus:</strong> {{ paciente['estatus'] }}</p>
     <p><strong>Último Pago:</strong> {{ ultimo_pago['fecha_pago'] if ultimo_pago else 'No registrado' }}</p>
 </div>
-<a href="{{ url_for('pacientes.editar_paciente', id=paciente['id']) }}" class="action-button">Editar Paciente</a>
-<a href="{{ url_for('historial_clinico.ver_crear_historial', paciente_id=paciente['id']) }}" class="action-button">Ver/Editar Historial Clínico</a>
-<a href="{{ url_for('valoracion.nueva_valoracion', paciente_id=paciente['id']) }}" class="action-button">Nueva Valoración Antropométrica</a>
 
-<h3>Registrar Pago</h3>
-<form action="{{ url_for('pacientes.registrar_pago_paciente', id=paciente['id']) }}" method="POST">
-    <div class="form-group">
-        <label for="fecha_pago" class="form-label">Fecha de Pago:</label>
-        <input type="date" id="fecha_pago" name="fecha_pago" class="form-input" required>
-    </div>
-    <button type="submit" class="form-button">Registrar Pago</button>
-</form>
+<div class="action-buttons">
+    <a href="{{ url_for('valoracion.lista_valoraciones', paciente_id=paciente['id']) }}" class="action-button">
+        <i class="fas fa-weight"></i> Ver Valoraciones Antropométricas
+    </a>
+    <a href="{{ url_for('historial_clinico.ver_crear_historial', paciente_id=paciente['id']) }}" class="action-button">
+        <i class="fas fa-notes-medical"></i> Ver/Editar Historial Clínico
+    </a>
+    <a href="{{ url_for('valoracion.nueva_valoracion', paciente_id=paciente['id']) }}" class="action-button">
+        <i class="fas fa-plus-circle"></i> Nueva Valoración Antropométrica
+    </a>
+</div>
+
+<div class="payment-section">
+    <h3>Registrar Pago</h3>
+    <form action="{{ url_for('pacientes.registrar_pago_paciente', id=paciente['id']) }}" method="POST">
+        <div class="form-group">
+            <label for="fecha_pago" class="form-label">Fecha de Pago:</label>
+            <input type="date" id="fecha_pago" name="fecha_pago" class="form-input" required>
+        </div>
+        <button type="submit" class="form-button">Registrar Pago</button>
+    </form>
+</div>
+
+<div class="grid-container">
+    {% if historial %}
+        <!-- Sección de Actividad Física -->
+        <div class="grid-section">
+            <h3><i class="fas fa-running"></i> Actividad Física</h3>
+            <div class="grid-data">
+                <div class="grid-item">
+                    <strong>Tipo de Actividad:</strong>
+                    <p>{{ historial['tipo_actividad_fisica'] or 'No registrado' }}</p>
+                </div>
+                <div class="grid-item">
+                    <strong>Frecuencia:</strong>
+                    <p>{{ historial['frecuencia_actividad_fisica'] or 'No registrado' }}</p>
+                </div>
+                <div class="grid-item">
+                    <strong>Tiempo:</strong>
+                    <p>{{ historial['tiempo_actividad_fisica'] or 'No registrado' }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Alimentación -->
+        <div class="grid-section">
+            <h3><i class="fas fa-utensils"></i> Alimentación</h3>
+            <div class="grid-data">
+                <div class="grid-item">
+                    <strong>Número de Comidas Diarias:</strong>
+                    <p>{{ historial['numero_comidas_diarias'] or 'No registrado' }}</p>
+                </div>
+                <div class="grid-item">
+                    <strong>Alimentos que Consume Normalmente:</strong>
+                    <p>{{ historial['alimentos_normales'] or 'No registrado' }}</p>
+                </div>
+                <div class="grid-item">
+                    <strong>Alimentos que No le Gustan:</strong>
+                    <p>{{ historial['alimentos_no_gustados'] or 'No registrado' }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Historial Médico -->
+        <div class="grid-section">
+            <h3><i class="fas fa-notes-medical"></i> Historial Médico</h3>
+            <div class="grid-data">
+                <div class="grid-item">
+                    <strong>Cirugías:</strong>
+                    <p>{{ historial['cirugias'] or 'No registrado' }}</p>
+                </div>
+                <div class="grid-item">
+                    <strong>Padecimientos:</strong>
+                    <p>{{ historial['padecimientos'] or 'No registrado' }}</p>
+                </div>
+                <div class="grid-item">
+                    <strong>Medicamentos:</strong>
+                    <p>{{ historial['medicamentos'] or 'No registrado' }}</p>
+                </div>
+                <div class="grid-item">
+                    <strong>Suplementos:</strong>
+                    <p>{{ historial['suplementos'] or 'No registrado' }}</p>
+                </div>
+                <div class="grid-item">
+                    <strong>Enfermedades Previas:</strong>
+                    <p>{{ historial['enfermedades_previas'] or 'No registrado' }}</p>
+                </div>
+                <div class="grid-item">
+                    <strong>Enfermedades Actuales:</strong>
+                    <p>{{ historial['enfermedades_actuales'] or 'No registrado' }}</p>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p class="no-data">No hay historial clínico registrado.</p>
+    {% endif %}
+</div>
+
+<style>
+.grid-container {
+    margin: 2rem 0;
+}
+
+.grid-section {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.grid-section h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.grid-section h3 i {
+    color: #3498db;
+}
+
+.grid-data {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.grid-item {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.grid-item strong {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+}
+
+.grid-item p {
+    margin: 0;
+    color: #666;
+}
+
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.action-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.payment-section {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+.no-data {
+    text-align: center;
+    color: #666;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.paciente-detalle {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 1.5rem;
+}
+</style>
 {% endblock %}
 

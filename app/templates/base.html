@@ -7,11 +7,24 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        .sidebar__header {
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .sidebar__logo {
+            max-width: 200px;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
     <div class="container" x-data="{ menuOpen: false }">
         <nav class="sidebar">
-            <h1 class="sidebar__title">Sistema de Pacientes</h1>
+            <div class="sidebar__header">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Sistema de Pacientes" class="sidebar__logo">
+            </div>
             <button @click="menuOpen = !menuOpen" class="sidebar__toggle">
                 ☰ Menú
             </button>

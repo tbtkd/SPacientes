@@ -403,3 +403,14 @@ body {
   }
 }
 
+.sidebar__header {
+  padding: 1rem;
+  text-align: center;
+}
+
+.sidebar__logo {
+  max-width: 200px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}

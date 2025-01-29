@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app.models.paciente import Paciente
 from app.models.pago import Pago
+from app.models.historial_clinico import HistorialClinico
 import sqlite3
 
 pacientes = Blueprint('pacientes', __name__)
@@ -34,7 +35,11 @@ def detalle_paciente(id):
         flash('Paciente no encontrado', 'error')
         return redirect(url_for('pacientes.lista_pacientes'))
     ultimo_pago = Pago.obtener_ultimo_pago(id)
-    return render_template('detalle_paciente.html', paciente=paciente, ultimo_pago=ultimo_pago)
+    historial = HistorialClinico.obtener_por_paciente_id(id)
+    return render_template('detalle_paciente.html', 
+                         paciente=paciente, 
+                         ultimo_pago=ultimo_pago,
+                         historial=historial)
 
 @pacientes.route('/pacientes/<int:id>/editar', methods=['GET', 'POST'])
 def editar_paciente(id):
@@ -45,32 +50,18 @@ def editar_paciente(id):
     
     if request.method == 'POST':
         try:
-            # Asegurarse de que todos los campos necesarios estén presentes
-            campos_requeridos = ['nombre', 'apellido_paterno', 'apellido_materno', 'fecha_nacimiento', 'telefono', 'correo', 'ciudad', 'estatus']
-            for campo in campos_requeridos:
-                if campo not in request.form:
-                    raise ValueError(f"Campo requerido faltante: {campo}")
-
             Paciente.actualizar(
-                id,
-                request.form['nombre'],
-                request.form['apellido_paterno'],
-                request.form['apellido_materno'],
-                request.form['fecha_nacimiento'],
-                request.form['telefono'],
-                request.form['correo'],
-                request.form['ciudad'],
-                request.form['estatus']
+                id, request.form['nombre'], request.form['apellido_paterno'], 
+                request.form['apellido_materno'], request.form['fecha_nacimiento'], 
+                request.form['telefono'], request.form['correo'], 
+                request.form['ciudad'], request.form['estatus']
             )
             flash('Información del paciente actualizada exitosamente', 'success')
             return redirect(url_for('pacientes.detalle_paciente', id=id))
-        except ValueError as e:
-            flash(f'Error al actualizar el paciente: {str(e)}', 'error')
         except sqlite3.IntegrityError:
             flash('Error: El correo electrónico ya está registrado', 'error')
         except Exception as e:
             flash(f'Error al actualizar el paciente: {str(e)}', 'error')
-    
     return render_template('editar_paciente.html', paciente=paciente)
 
 @pacientes.route('/pacientes/<int:id>/pago', methods=['POST'])
