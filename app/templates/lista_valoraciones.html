@@ -3,8 +3,7 @@
 {% block title %}Valoraciones Antropométricas - {{ paciente['nombre'] }} {{ paciente['apellido_paterno'] }}{% endblock %}
 
 {% block content %}
-<h2>Valoraciones Antropométricas de {{ paciente['nombre'] }} {{ paciente['apellido_paterno'] }}</h2>
-<a href="{{ url_for('valoracion.nueva_valoracion', paciente_id=paciente['id']) }}" class="btn btn-primary">Nueva Valoración</a>
+<h2>Valoraciones Antropométricas de {{ paciente['nombre'] }} {{ paciente['apellido_paterno'] }} {{ paciente['apellido_materno'] }}</h2>
 <div class="table-container">
     <table class="table">
         <thead>
@@ -39,6 +38,11 @@
             {% endfor %}
         </tbody>
     </table>
+    <div class="valoracion-actions">
+        <a href="{{ url_for('pacientes.detalle_paciente', id=paciente['id']) }}" class="action-button">
+            <i class="fas fa-arrow-left"></i> Volver al Paciente
+        </a>
+    </div>
 </div>
 {% endblock %}
 

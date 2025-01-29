@@ -17,14 +17,14 @@
 </div>
 
 <div class="action-buttons">
+    <a href="{{ url_for('valoracion.nueva_valoracion', paciente_id=paciente['id']) }}" class="action-button">
+        <i class="fas fa-plus-circle"></i> Nueva Valoración Antropométrica
+    </a>
     <a href="{{ url_for('valoracion.lista_valoraciones', paciente_id=paciente['id']) }}" class="action-button">
         <i class="fas fa-weight"></i> Ver Valoraciones Antropométricas
     </a>
     <a href="{{ url_for('historial_clinico.ver_crear_historial', paciente_id=paciente['id']) }}" class="action-button">
-        <i class="fas fa-notes-medical"></i> Ver/Editar Historial Clínico
-    </a>
-    <a href="{{ url_for('valoracion.nueva_valoracion', paciente_id=paciente['id']) }}" class="action-button">
-        <i class="fas fa-plus-circle"></i> Nueva Valoración Antropométrica
+        <i class="fas fa-notes-medical"></i> Capturar Historial Clínico
     </a>
 </div>
 

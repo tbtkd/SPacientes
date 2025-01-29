@@ -13,7 +13,8 @@
             <th class="table__header">Ciudad</th>
             <th class="table__header">Estatus</th>
             <th class="table__header">Último Pago</th>
-            <th class="table__header">Acciones</th>
+            <th class="table__header">Detalle del paciente</th>
+            <th class="table__header">Actualizar paciente</th>
         </tr>
     </thead>
     <tbody>
@@ -26,10 +27,13 @@
             <td class="table__cell">{{ paciente['status'] }}</td>
             <td class="table__cell">{{ paciente['ultimo_pago'] if paciente['ultimo_pago'] else 'No registrado' }}</td>
             <td class="table__cell">
-                <a href="{{ url_for('pacientes.detalle_paciente', id=paciente['id']) }}" class="action-button">Ver</a>
-                <a href="{{ url_for('pacientes.editar_paciente', id=paciente['id']) }}" class="action-button">Editar</a>
-                <a href="{{ url_for('historial_clinico.ver_crear_historial', paciente_id=paciente['id']) }}" class="action-button">Historial Clínico</a>
-                <a href="{{ url_for('valoracion.nueva_valoracion', paciente_id=paciente['id']) }}" class="action-button">Nueva Valoración</a>
+                <a href="{{ url_for('pacientes.detalle_paciente', id=paciente['id']) }}" class="action-button">Consultar</a>
+
+                <!--<a href="{{ url_for('historial_clinico.ver_crear_historial', paciente_id=paciente['id']) }}" class="action-button">Historial Clínico</a>
+                <a href="{{ url_for('valoracion.nueva_valoracion', paciente_id=paciente['id']) }}" class="action-button">Nueva Valoración</a>-->
+            </td>
+            <td class="table__cell">
+                <a href="{{ url_for('pacientes.editar_paciente', id=paciente['id']) }}" class="action-button">Actualizar Paciente</a>
             </td>
         </tr>
         {% endfor %}
