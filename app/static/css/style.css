@@ -416,7 +416,7 @@ body {
 }
 
 .search-form {
-  margin-bottom: 20px;
+  margin-bottom: 200px;
 }
 
 .search-form input[type="text"] {
@@ -437,4 +437,23 @@ body {
 
 .search-form button:hover {
   background-color: #0056b3;
+}
+
+.detail-container {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.detail-container p {
+  margin-bottom: 10px;
+}
+
+.action-buttons {
+  margin-top: 20px;
+}
+
+.action-buttons .modern-action-button {
+  margin-right: 10px;
 }

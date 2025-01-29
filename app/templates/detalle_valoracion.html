@@ -141,7 +141,8 @@
                         <th class="table__header">% Grasa</th>
                         <th class="table__header">Tensión arterial</th>
                         <th class="table__header">Frecuencia cardíaca</th>
-                        <th class="table__header">Acciones</th>
+                        <th class="table__header">Ver Información</th>
+                        <!--<th class="table__header">Actualizar Información</th>-->
                     </tr>
                 </thead>
                 <tbody>
@@ -155,8 +156,12 @@
                         <td class="table__cell text-right">{{ val['frecuencia_cardiaca'] }} lpm</td>
                         <td class="table__cell">
                             <a href="{{ url_for('valoracion.detalle_valoracion', valoracion_id=val['id']) }}" 
-                               class="action-button">Ver</a>
+                                class="action-button">Seleccionar</a>
                         </td>
+                        <!--<td class="table__cell">
+                            <a href="{{ url_for('valoracion.editar_valoracion', valoracion_id=valoracion['id']) }}" 
+                                class="action-button">Actualizar</a>
+                        </td>-->
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -168,9 +173,9 @@
         <a href="{{ url_for('valoracion.lista_valoraciones', paciente_id=paciente['id']) }}" class="action-button">
             <i class="fas fa-arrow-left"></i> Volver a la lista
         </a>
-        <a href="{{ url_for('valoracion.nueva_valoracion', paciente_id=paciente['id']) }}" class="action-button">
+        <!--<a href="{{ url_for('valoracion.nueva_valoracion', paciente_id=paciente['id']) }}" class="action-button">
             <i class="fas fa-plus"></i> Nueva Valoración
-        </a>
+        </a>-->
     </div>
 </div>
 {% endblock %}

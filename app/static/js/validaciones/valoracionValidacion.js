@@ -12,11 +12,13 @@ export function validarFormularioValoracion() {
   const pierna = document.getElementById("pierna").value.trim()
   const pantorrilla = document.getElementById("pantorrilla").value.trim()
   const bicep = document.getElementById("bicep").value.trim()
+   /*const tension_arterial = document.getElementById("tension_arterial").value.trim()
+  const frecuencia_cardiaca = document.getElementById("frecuencia_cardiaca").value.trim()*/
   const tricep = document.getElementById("tricep").value.trim()
   const suprailiaco = document.getElementById("suprailiaco").value.trim()
   const subescapular = document.getElementById("subescapular").value.trim()
   const femoral = document.getElementById("femoral").value.trim()
-  const porcentajeGrasa = document.getElementById("porcentaje_grasa").value.trim()
+ const porcentajeGrasa = document.getElementById("porcentaje_grasa").value.trim()
 
   if (
     numeroCita === "" ||
@@ -31,6 +33,8 @@ export function validarFormularioValoracion() {
     cadera === "" ||
     pierna === "" ||
     pantorrilla === "" ||
+    /*tension_arterial === "" ||
+    frecuencia_cardiaca === "" ||*/
     bicep === "" ||
     tricep === "" ||
     suprailiaco === "" ||
@@ -52,12 +56,14 @@ export function validarFormularioValoracion() {
     !validarNumeroPositivo(cadera) ||
     !validarNumeroPositivo(pierna) ||
     !validarNumeroPositivo(pantorrilla) ||
+    /*!validarNumeroPositivo(tension_arterial) ||
+    !validarNumeroPositivo(frecuencia_cardiaca) ||*/
     !validarNumeroPositivo(bicep) ||
     !validarNumeroPositivo(tricep) ||
     !validarNumeroPositivo(suprailiaco) ||
     !validarNumeroPositivo(subescapular) ||
     !validarNumeroPositivo(porcentajeGrasa)
-  ) {
+    ) {
     mostrarError("Por favor, ingrese valores numéricos positivos para todas las medidas.")
     return false
   }

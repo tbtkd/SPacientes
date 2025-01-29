@@ -88,7 +88,6 @@ def editar_valoracion(valoracion_id):
 
     if request.method == 'POST':
         datos = {
-            'numero_cita': request.form['numero_cita'],
             'fecha': request.form['fecha'],
             'estatura': request.form['estatura'],
             'peso': request.form['peso'],
