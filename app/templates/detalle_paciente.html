@@ -29,10 +29,10 @@
 </div>
 
 <div class="payment-section">
-    <h3>Registrar Pago</h3>
+    <h3><i class="fas fa-calendar"></i> Registrar Fecha Pago</h3>
     <form action="{{ url_for('pacientes.registrar_pago_paciente', id=paciente['id']) }}" method="POST">
         <div class="form-group">
-            <label for="fecha_pago" class="form-label">Fecha de Pago:</label>
+
             <input type="date" id="fecha_pago" name="fecha_pago" class="form-input" required>
         </div>
         <button type="submit" class="form-button">Registrar Pago</button>

@@ -7,17 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <style>
-        .sidebar__header {
-            padding: 1rem;
-            text-align: center;
-        }
-
-        .sidebar__logo {
-            max-width: 200px;
-            height: auto;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/form.css') }}">
 </head>
 <body>
     <div class="container" x-data="{ menuOpen: false }">
@@ -37,19 +27,6 @@
                         <li class="sidebar__item"><a href="{{ url_for('pacientes.lista_pacientes') }}" class="sidebar__link"><i class="fas fa-list sidebar__icon"></i> Lista de Pacientes</a></li>
                     </ul>
                 </li>
-                <!--<li class="sidebar__item" x-data="{ open: false }">
-                    <a @click="open = !open" class="sidebar__link sidebar__dropdown"><i class="fas fa-notes-medical sidebar__icon"></i> Historial Clínico</a>
-                    <ul x-show="open" class="sidebar__submenu">
-                        <li class="sidebar__item"><a href="{{ url_for('historial_clinico.lista_historiales') }}" class="sidebar__link"><i class="fas fa-clipboard-list sidebar__icon"></i> Lista de Historiales</a></li>
-                    </ul>
-                </li>
-                <li class="sidebar__item" x-data="{ open: false }">
-                    <a @click="open = !open" class="sidebar__link sidebar__dropdown"><i class="fas fa-weight sidebar__icon"></i> Valoración Antropométrica</a>
-                    <ul x-show="open" class="sidebar__submenu">
-                        <li class="sidebar__item"><a href="{{ url_for('pacientes.lista_pacientes') }}" class="sidebar__link"><i class="fas fa-plus-circle sidebar__icon"></i> Nueva Valoración</a></li>
-                        <li class="sidebar__item"><a href="{{ url_for('valoracion.lista_valoraciones', paciente_id=0) }}" class="sidebar__link"><i class="fas fa-list sidebar__icon"></i> Lista de Valoraciones</a></li>
-                    </ul>
-                </li>-->
             </ul>
         </nav>
         <main class="content">
