@@ -3,8 +3,12 @@
 {% block title %}Valoraciones Antropométricas - {{ paciente['nombre'] }} {{ paciente['apellido_paterno'] }}{% endblock %}
 
 {% block content %}
-<h2>Valoraciones Antropométricas de {{ paciente['nombre'] }} {{ paciente['apellido_paterno'] }} {{ paciente['apellido_materno'] }}</h2>
 <div class="table-container">
+    <header class="valoracion-header">
+        <h2>Valoraciones Valoración Antropométrica</h2>
+        <h3>Paciente: {{ paciente['nombre'] }} {{ paciente['apellido_paterno'] }} {{ paciente['apellido_materno'] }}</h3>
+    </header>
+    
     <table class="table">
         <thead>
             <tr>

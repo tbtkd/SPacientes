@@ -10,12 +10,12 @@ def run_flask():
     app.run(debug=False)
 
 def open_browser():
-    webbrowser.open_new('http://127.0.0.1:5000/')
+    webbrowser.open_new ('http://localhost:5000/') #('http://127.0.0.1:5000/')
 
 def check_flask_status():
     while True:
         try:
-            response = requests.get('http://127.0.0.1:5000/')
+            response = requests.get('http://localhost:5000/')#('http://127.0.0.1:5000/')
             if response.status_code == 200:
                 return True
         except requests.ConnectionError:
