@@ -63,6 +63,7 @@ CREATE TABLE IF NOT EXISTS valoracion_antropometrica_nueva (
     subescapular FLOAT NOT NULL,
     femoral FLOAT,
     porcentaje_grasa FLOAT NOT NULL,
+    ultima_dieta TEXT,
     FOREIGN KEY (paciente_id) REFERENCES pacientes (id)
 );
 
@@ -71,13 +72,13 @@ INSERT INTO valoracion_antropometrica_nueva (
     id, paciente_id, numero_cita, fecha, estatura, peso, imc, grasa,
     cintura, torax, brazo, cadera, pierna, pantorrilla,
     tension_arterial, frecuencia_cardiaca,
-    bicep, tricep, suprailiaco, subescapular, femoral, porcentaje_grasa
+    bicep, tricep, suprailiaco, subescapular, femoral, porcentaje_grasa,ultima_dieta
 )
 SELECT 
     id, paciente_id, numero_cita, fecha, estatura, peso, imc, grasa,
     cintura, torax, brazo, cadera, pierna, pantorrilla,
     '120/80', 70, -- Valores por defecto para tension_arterial y frecuencia_cardiaca
-    bicep, tricep, suprailiaco, subescapular, femoral, porcentaje_grasa
+    bicep, tricep, suprailiaco, subescapular, femoral, porcentaje_grasa,'no registrada'
 FROM valoracion_antropometrica;
 
 -- Eliminar la tabla antigua

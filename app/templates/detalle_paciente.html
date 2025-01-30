@@ -13,6 +13,7 @@
     <p><strong>Correo:</strong> {{ paciente['correo'] }}</p>
     <p><strong>Ciudad:</strong> {{ paciente['ciudad'] }}</p>
     <p><strong>Estatus:</strong> {{ paciente['status'] }}</p>
+    <p><strong>Última Dieta:</strong> {{ ultima_valoracion['ultima_dieta'] if ultima_valoracion else 'No registrada' }}</p>
     <p><strong>Último Pago:</strong> {{ ultimo_pago['fecha_pago'] if ultimo_pago else 'No registrado' }}</p>
 </div>
 
@@ -32,11 +33,20 @@
     <h3><i class="fas fa-calendar"></i> Registrar Fecha Pago</h3>
     <form action="{{ url_for('pacientes.registrar_pago_paciente', id=paciente['id']) }}" method="POST">
         <div class="form-group">
-
             <input type="date" id="fecha_pago" name="fecha_pago" class="form-input" required>
         </div>
         <button type="submit" class="form-button">Registrar Pago</button>
     </form>
+    <div class="diet-section">
+        <h3>Registrar Última Dieta</h3>
+        <form action="{{ url_for('pacientes.detalle_paciente', id=paciente['id']) }}" method="POST">
+            <div class="form-group">
+                <label for="ultima_dieta" class="form-label">Última Dieta:</label>
+                <input type="text" id="ultima_dieta" name="ultima_dieta" class="form-input" maxlength="8" required>
+            </div>
+            <button type="submit" class="modern-action-button">Registrar Dieta</button>
+        </form>
+    </div>
 </div>
 
 <div class="grid-container">

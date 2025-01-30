@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app.models.paciente import Paciente
 from app.models.pago import Pago
 from app.models.historial_clinico import HistorialClinico
+from app.models.valoracion_antropometrica import ValoracionAntropometrica
 import sqlite3
 
 pacientes = Blueprint('pacientes', __name__)
@@ -28,19 +29,56 @@ def lista_pacientes():
     busqueda = request.args.get('busqueda', '')
     pacientes = Paciente.buscar(busqueda)
     return render_template('lista_pacientes.html', pacientes=pacientes, busqueda=busqueda)
-
+"""
 @pacientes.route('/pacientes/<int:id>')
 def detalle_paciente(id):
     paciente = Paciente.obtener_por_id(id)
     if paciente is None:
         flash('Paciente no encontrado', 'error')
         return redirect(url_for('pacientes.lista_pacientes'))
+    
     ultimo_pago = Pago.obtener_ultimo_pago(id)
     historial = HistorialClinico.obtener_por_paciente_id(id)
     return render_template('detalle_paciente.html', 
-                         paciente=paciente, 
-                         ultimo_pago=ultimo_pago,
-                         historial=historial)
+                            paciente=paciente, 
+                            ultimo_pago=ultimo_pago,
+                            historial=historial)
+"""
+@pacientes.route('/pacientes/<int:id>', methods=['GET', 'POST'])
+def detalle_paciente(id):
+    paciente = Paciente.obtener_por_id(id)
+    if paciente is None:
+        flash('Paciente no encontrado', 'error')
+        return redirect(url_for('pacientes.lista_pacientes'))
+    
+    if request.method == 'POST':
+        if 'fecha_pago' in request.form:
+            fecha_pago = request.form['fecha_pago']
+            try:
+                Pago.registrar(id, fecha_pago)
+                flash('Pago registrado exitosamente', 'success')
+            except Exception as e:
+                flash(f'Error al registrar el pago: {str(e)}', 'error')
+        elif 'ultima_dieta' in request.form:
+            ultima_dieta = request.form['ultima_dieta']
+            try:
+                exito, mensaje = ValoracionAntropometrica.actualizar_ultima_dieta(id, ultima_dieta)
+                if exito:
+                    flash(mensaje, 'success')
+                else:
+                    flash(mensaje, 'error')
+            except Exception as e:
+                flash(f'Error al actualizar la última dieta: {str(e)}', 'error')
+        return redirect(url_for('pacientes.detalle_paciente', id=id))
+
+    ultimo_pago = Pago.obtener_ultimo_pago(id)
+    historial = HistorialClinico.obtener_por_paciente_id(id)
+    ultima_valoracion = ValoracionAntropometrica.obtener_ultima_por_paciente(id)
+    return render_template('detalle_paciente.html', 
+                            paciente=paciente, 
+                            ultimo_pago=ultimo_pago,
+                            historial=historial,
+                            ultima_valoracion=ultima_valoracion)
 
 @pacientes.route('/pacientes/<int:id>/editar', methods=['GET', 'POST'])
 def editar_paciente(id):
