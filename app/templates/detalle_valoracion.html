@@ -23,6 +23,12 @@
                     <span class="data-value">{{ valoracion['fecha'] }}</span>
                 </div>
             </div>
+            <div class="valoracion-card__content">
+                <div class="data-item">
+                    <span class="data-label">Última Dieta:</span>
+                    <span class="data-value">{{ valoracion['ultima_dieta'] or 'No registrada' }}</span>
+                </div>
+            </div>
         </div>
 
         <!-- Sección de Medidas Corporales -->
@@ -123,16 +129,6 @@
                 <div class="data-item">
                     <span class="data-label">% Grasa total:</span>
                     <span class="data-value">{{ valoracion['porcentaje_grasa'] }}%</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="grid-section">
-            <h4>Última Dieta</h4>
-            <div class="grid-data">
-                <div class="grid-item">
-                    <strong>Dieta:</strong>
-                    <p>{{ valoracion['ultima_dieta'] or 'No registrada' }}</p>
                 </div>
             </div>
         </div>

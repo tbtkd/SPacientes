@@ -29,93 +29,105 @@
     </a>
 </div>
 
-<div class="payment-section">
-    <h3><i class="fas fa-calendar"></i> Registrar Fecha Pago</h3>
-    <form action="{{ url_for('pacientes.registrar_pago_paciente', id=paciente['id']) }}" method="POST">
-        <div class="form-group">
-            <input type="date" id="fecha_pago" name="fecha_pago" class="form-input" required>
-        </div>
-        <button type="submit" class="form-button">Registrar Pago</button>
-    </form>
-    <div class="diet-section">
-        <h3>Registrar Última Dieta</h3>
-        <form action="{{ url_for('pacientes.detalle_paciente', id=paciente['id']) }}" method="POST">
-            <div class="form-group">
-                <label for="ultima_dieta" class="form-label">Última Dieta:</label>
-                <input type="text" id="ultima_dieta" name="ultima_dieta" class="form-input" maxlength="8" required>
+<div class="valoracion-grid">
+    <div class="valoracion-card">
+        <h3 class="valoracion-card__title"><i class="fas fa-calendar"></i> Registrar Fecha Pago</h3>
+        <div class="valoracion-card__content">
+            <div class="data-item">
+                <form action="{{ url_for('pacientes.registrar_pago_paciente', id=paciente['id']) }}" method="POST">
+                    <div class="form-group">
+                        <label for="ultima_dieta" class="form-label">Registrar Pago:</label>
+                        <input type="date" id="fecha_pago" name="fecha_pago" class="form-input" required>
+                    </div>
+                    <button type="submit" class="form-button">Registrar Pago</button>
+                </form>
             </div>
-            <button type="submit" class="modern-action-button">Registrar Dieta</button>
-        </form>
+        </div>
     </div>
-</div>
+    
+    <div class="valoracion-card">
+        <h3 class="valoracion-card__title"><i class="fas fa-calendar"></i> Registrar Última Dieta</h3>
+            <div class="valoracion-card__content">
+                <div class="data-item">
+                    <form action="{{ url_for('pacientes.detalle_paciente', id=paciente['id']) }}" method="POST">
+                        <div class="form-group">
+                            <label for="ultima_dieta" class="form-label">Última Dieta:</label>
+                            <input type="text" id="ultima_dieta" name="ultima_dieta" class="form-input" maxlength="8" required>
+                        </div>
+                        <button type="submit" class="form-button">Registrar Dieta</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div class="grid-container">
-    {% if historial %}
+    <div class="valoracion-grid">
+    {% if historial %}   
         <!-- Sección de Actividad Física -->
-        <div class="grid-section">
-            <h3><i class="fas fa-running"></i> Actividad Física</h3>
-            <div class="grid-data">
-                <div class="grid-item">
-                    <strong>Tipo de Actividad:</strong>
-                    <p>{{ historial['tipo_actividad_fisica'] or 'No registrado' }}</p>
+        <div class="valoracion-card">
+            <h3 class="valoracion-card__title"> <i class="fas fa-running"></i>  Actividad Física</h3>
+            <div class="valoracion-card__content">
+                <div class="data-item">
+                    <span class="data-label">Tipo de Actividad:</span>
+                    <span class="data-value">{{ historial['tipo_actividad_fisica'] or 'No registrado' }}</span>
                 </div>
-                <div class="grid-item">
-                    <strong>Frecuencia:</strong>
-                    <p>{{ historial['frecuencia_actividad_fisica'] or 'No registrado' }}</p>
+                <div class="data-item">
+                    <span class="data-label">Frecuencia:</span>
+                    <span class="data-value">{{ historial['frecuencia_actividad_fisica'] or 'No registrado' }}</span>
                 </div>
-                <div class="grid-item">
-                    <strong>Tiempo:</strong>
-                    <p>{{ historial['tiempo_actividad_fisica'] or 'No registrado' }}</p>
+                <div class="data-item">
+                    <span class="data-label">Tiempo:</span>
+                    <span class="data-value">{{ historial['tiempo_actividad_fisica'] or 'No registrado' }}</span>
                 </div>
             </div>
         </div>
 
         <!-- Sección de Alimentación -->
-        <div class="grid-section">
-            <h3><i class="fas fa-utensils"></i> Alimentación</h3>
-            <div class="grid-data">
-                <div class="grid-item">
-                    <strong>Número de Comidas Diarias:</strong>
-                    <p>{{ historial['numero_comidas_diarias'] or 'No registrado' }}</p>
+        <div class="valoracion-card">
+            <h3 class="valoracion-card__title"><i class="fas fa-utensils"></i> Alimentación</h3>
+            <div class="valoracion-card__content">
+                <div class="data-item">
+                    <span class="data-label">Número de Comidas Diarias:</span>
+                    <span class="data-value">{{ historial['numero_comidas_diarias'] or 'No registrado' }}</span>
                 </div>
-                <div class="grid-item">
-                    <strong>Alimentos que Consume Normalmente:</strong>
-                    <p>{{ historial['alimentos_normales'] or 'No registrado' }}</p>
+                <div class="data-item">
+                    <span class="data-label">Alimentos que Consume Normalmente:</span>
+                    <span class="data-value">{{ historial['alimentos_normales'] or 'No registrado' }}</span>
                 </div>
-                <div class="grid-item">
-                    <strong>Alimentos que No le Gustan:</strong>
-                    <p>{{ historial['alimentos_no_gustados'] or 'No registrado' }}</p>
+                <div class="data-item">
+                    <span class="data-label">Alimentos que No le Gustan:</span>
+                    <span class="data-value">{{ historial['alimentos_no_gustados'] or 'No registrado' }}</span>
                 </div>
             </div>
         </div>
 
         <!-- Sección de Historial Médico -->
-        <div class="grid-section">
-            <h3><i class="fas fa-notes-medical"></i> Historial Médico</h3>
-            <div class="grid-data">
-                <div class="grid-item">
-                    <strong>Cirugías:</strong>
-                    <p>{{ historial['cirugias'] or 'No registrado' }}</p>
+        <div class="valoracion-card">
+            <h3 class="valoracion-card__title"><i class="fas fa-notes-medical"></i> Historial Médico</h3>
+            <div class="valoracion-card__content">
+                <div class="data-item">
+                    <span class="data-label">Cirugías:</span>
+                    <span class="data-value">{{ historial['cirugias'] or 'No registrado' }}</span>
                 </div>
-                <div class="grid-item">
-                    <strong>Padecimientos:</strong>
-                    <p>{{ historial['padecimientos'] or 'No registrado' }}</p>
+                <div class="data-item">
+                    <span class="data-label">Padecimientos:</span>
+                    <span class="data-value">{{ historial['padecimientos'] or 'No registrado' }}</span>
                 </div>
-                <div class="grid-item">
-                    <strong>Medicamentos:</strong>
-                    <p>{{ historial['medicamentos'] or 'No registrado' }}</p>
+                <div class="data-item">
+                    <span class="data-label">Medicamentos:</span>
+                    <span class="data-value">{{ historial['medicamentos'] or 'No registrado' }}</span>
                 </div>
-                <div class="grid-item">
-                    <strong>Suplementos:</strong>
-                    <p>{{ historial['suplementos'] or 'No registrado' }}</p>
+                <div class="data-item">
+                    <span class="data-label">Suplementos:</span>
+                    <span class="data-value">{{ historial['suplementos'] or 'No registrado' }}</span>
                 </div>
-                <div class="grid-item">
-                    <strong>Enfermedades Previas:</strong>
-                    <p>{{ historial['enfermedades_previas'] or 'No registrado' }}</p>
+                <div class="data-item">
+                    <span class="data-label">Enfermedades Previas:</span>
+                    <span class="data-value">{{ historial['enfermedades_previas'] or 'No registrado' }}</span>
                 </div>
-                <div class="grid-item">
-                    <strong>Enfermedades Actuales:</strong>
-                    <p>{{ historial['enfermedades_actuales'] or 'No registrado' }}</p>
+                <div class="data-item">
+                    <span class="data-label">Enfermedades Actuales:</span>
+                    <span class="data-value">{{ historial['enfermedades_actuales'] or 'No registrado' }}</span>
                 </div>
             </div>
         </div>

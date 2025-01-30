@@ -67,6 +67,7 @@ CREATE TABLE IF NOT EXISTS valoracion_antropometrica_nueva (
     FOREIGN KEY (paciente_id) REFERENCES pacientes (id)
 );
 
+/*
 -- Copiar los datos existentes a la nueva tabla
 INSERT INTO valoracion_antropometrica_nueva (
     id, paciente_id, numero_cita, fecha, estatura, peso, imc, grasa,
@@ -86,4 +87,4 @@ DROP TABLE valoracion_antropometrica;
 
 -- Renombrar la nueva tabla
 ALTER TABLE valoracion_antropometrica_nueva RENAME TO valoracion_antropometrica;
-
+*/
