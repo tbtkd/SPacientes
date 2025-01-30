@@ -1,10 +1,15 @@
 from app.db import get_db, query_db
+from datetime import datetime
 
 class ValoracionAntropometrica:
     @staticmethod
     def crear(paciente_id, datos):
         db = get_db()
         try:
+            # Obtener el siguiente número de cita automáticamente si no se proporciona
+            if 'numero_cita' not in datos or not datos['numero_cita']:
+                datos['numero_cita'] = ValoracionAntropometrica.obtener_ultimo_numero_cita(paciente_id)
+            
             db.execute('''
                 INSERT INTO valoracion_antropometrica (
                     paciente_id, numero_cita, fecha, estatura, peso, imc, grasa,
@@ -14,12 +19,14 @@ class ValoracionAntropometrica:
                     ultima_dieta
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
-                paciente_id, datos['numero_cita'], datos['fecha'], datos['estatura'],
-                datos['peso'], datos['imc'], datos['grasa'], datos['cintura'],
-                datos['torax'], datos['brazo'], datos['cadera'], datos['pierna'],
-                datos['pantorrilla'], datos['tension_arterial'], datos['frecuencia_cardiaca'],
-                datos['bicep'], datos['tricep'], datos['suprailiaco'], datos['subescapular'],
-                datos['femoral'], datos['porcentaje_grasa'], datos.get('ultima_dieta', '')
+                paciente_id, datos['numero_cita'], datos['fecha'], datos.get('estatura'),
+                datos.get('peso'), datos.get('imc'), datos.get('grasa'), datos.get('cintura'),
+                datos.get('torax'), datos.get('brazo'), datos.get('cadera'), datos.get('pierna'),
+                datos.get('pantorrilla'), datos.get('tension_arterial'), 
+                datos.get('frecuencia_cardiaca'),
+                datos.get('bicep'), datos.get('tricep'), datos.get('suprailiaco'),
+                datos.get('subescapular'), datos.get('femoral'),
+                datos.get('porcentaje_grasa'), datos.get('ultima_dieta')
             ))
             db.commit()
             return True, "Valoración antropométrica registrada correctamente."

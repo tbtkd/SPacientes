@@ -2,6 +2,11 @@
 
 {% block title %}Detalle del Paciente{% endblock %}
 
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/detalle_paciente_grid.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="table-container">
     <h2>Detalle del Paciente</h2>
@@ -28,8 +33,29 @@
         <a href="{{ url_for('historial_clinico.ver_crear_historial', paciente_id=paciente['id']) }}" class="action-button">
             <i class="fas fa-notes-medical"></i> Capturar/Actualizar Historial Clínico
         </a>
+        <form action="{{ url_for('pacientes.cargar_excel', id=paciente['id']) }}" method="POST" enctype="multipart/form-data" class="excel-upload-form">
+            <div class="file-upload-container">
+                <input type="file" id="excel_file" name="excel_file" accept=".xls,.xlsx" class="file-input" required>
+                <button type="submit" class="modern-action-button">
+                    <i class="fas fa-file-excel"></i> Cargar Excel
+                </button>
+            </div>
+        </form>
     </div>
 
+    <!-- Excel Upload Modal 
+    <div id="excelModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeExcelModal()">&times;</span>
+            <h2>Cargar Archivo Excel</h2>
+            <form id="excelUploadForm" enctype="multipart/form-data">
+                <input type="file" id="excelFile" name="excel_file" accept=".xls,.xlsx" required>
+                <button type="submit" class="modern-action-button">Cargar</button>
+            </form>
+            <div id="uploadResult"></div>
+        </div>
+    </div>
+    -->
     <div class="valoracion-grid">
         <div class="valoracion-card">
             <h3 class="valoracion-card__title"><i class="fas fa-calendar"></i> Registrar Fecha Pago</h3>
@@ -137,6 +163,49 @@
         {% endif %}
     </div>
 </div>
+
+<!-- ... (rest of the content remains unchanged) ... -->
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+function openExcelModal() {
+    document.getElementById('excelModal').style.display = 'block';
+}
+
+function closeExcelModal() {
+    document.getElementById('excelModal').style.display = 'none';
+}
+
+document.getElementById('excelUploadForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+    
+    fetch('{{ url_for("pacientes.cargar_excel", id=paciente["id"]) }}', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        var resultDiv = document.getElementById('uploadResult');
+        if (data.success) {
+            resultDiv.innerHTML = `<p>${data.message}</p>`;
+            if (data.errores && data.errores.length > 0) {
+                resultDiv.innerHTML += '<ul>' + data.errores.map(error => `<li>${error}</li>`).join('') + '</ul>';
+            }
+        } else {
+            resultDiv.innerHTML = `<p>Error: ${data.message}</p>`;
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('uploadResult').innerHTML = '<p>Error al procesar la solicitud</p>';
+    });
+});
+</script>
+
 <style>
 .grid-container {
     margin: 2rem 0;

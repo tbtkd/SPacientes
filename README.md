@@ -1,22 +1,38 @@
-# Sistema de Alta de Pacientes (V52)
+## Sistema de Gestión de Pacientes (V1.1)
 
 Este proyecto es un sistema de gestión de pacientes desarrollado con Python, Flask y SQLite, siguiendo el patrón de diseño MVC.
 
 ## Características
 
-- Alta de pacientes con los siguientes campos:
-  - Nombre
-  - Apellido Paterno
-  - Apellido Materno
-  - Fecha de nacimiento
-  - Teléfono
-  - Correo
-  - Ciudad
-- Consulta de usuarios registrados
-- Actualización de información de usuarios
-- Diseño web responsivo
-- Validaciones en el lado del cliente con JavaScript
-- Menú desplegable responsivo
+* Gestión de Pacientes:
+  - Registro de pacientes con los siguientes campos:
+    * Nombre
+    * Apellido Paterno
+    * Apellido Materno
+    * Fecha de nacimiento
+    * Teléfono
+    * Correo
+    * Ciudad
+  - Consulta y actualización de información de pacientes
+
+* Historial Clínico:
+  - Registro y consulta de historial médico
+  - Gestión de valoraciones antropométricas
+
+* Base de Datos:
+  - SQLite como almacenamiento principal
+  - Archivo schema.sql para definición del esquema
+
+* Interfaz Web:
+  - Diseño responsivo
+  - Validaciones en el lado del cliente con JavaScript
+
+* Estructura del Proyecto:
+  - app/controllers/ → Controladores de la aplicación
+  - app/models/ → Modelos de datos
+  - app/db.py → Configuración de la base de datos
+  - run.py → Archivo de ejecución principal
+  - requirements.txt → Dependencias del proyecto
 
 ## Estructura del Proyecto
 
@@ -57,3 +73,21 @@ Este proyecto es un sistema de gestión de pacientes desarrollado con Python, Fl
 │── app.py                              # Punto de entrada del proyecto
 │── requirements.txt                     # Dependencias necesarias
 │── README.md                            # Documentación general
+
+
+## Instalación y Uso
+
+1. Clonar el repositorio:
+  * git clone <repo_url>
+  * cd SistemaPacientes
+
+2. Instalar dependencias:
+  * pip install -r requirements.txt
+
+3. Iniciar la aplicación:
+  * python run.py
+
+## Mejoras Futuras
+  * Implementación de autenticación de usuarios
+  * Reportes y estadísticas de pacientes
+  * Integración con una API externa para geolocalización de pacientes
