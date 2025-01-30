@@ -33,29 +33,24 @@
         <a href="{{ url_for('historial_clinico.ver_crear_historial', paciente_id=paciente['id']) }}" class="action-button">
             <i class="fas fa-notes-medical"></i> Capturar/Actualizar Historial Clínico
         </a>
-        <form action="{{ url_for('pacientes.cargar_excel', id=paciente['id']) }}" method="POST" enctype="multipart/form-data" class="excel-upload-form">
-            <div class="file-upload-container">
-                <input type="file" id="excel_file" name="excel_file" accept=".xls,.xlsx" class="file-input" required>
-                <button type="submit" class="modern-action-button">
-                    <i class="fas fa-file-excel"></i> Cargar Excel
-                </button>
-            </div>
-        </form>
+        <button onclick="openExcelModal()" class="action-button">
+            <i class="fas fa-file-excel"></i> Cargar Excel
+        </button>
     </div>
 
-    <!-- Excel Upload Modal 
+    <!-- Excel Upload Modal -->
     <div id="excelModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeExcelModal()">&times;</span>
             <h2>Cargar Archivo Excel</h2>
-            <form id="excelUploadForm" enctype="multipart/form-data">
+            <form id="excelUploadForm" action="{{ url_for('pacientes.cargar_excel', id=paciente['id']) }}" method="POST" enctype="multipart/form-data">
                 <input type="file" id="excelFile" name="excel_file" accept=".xls,.xlsx" required>
                 <button type="submit" class="modern-action-button">Cargar</button>
             </form>
             <div id="uploadResult"></div>
         </div>
     </div>
-    -->
+
     <div class="valoracion-grid">
         <div class="valoracion-card">
             <h3 class="valoracion-card__title"><i class="fas fa-calendar"></i> Registrar Fecha Pago</h3>
@@ -163,8 +158,6 @@
         {% endif %}
     </div>
 </div>
-
-<!-- ... (rest of the content remains unchanged) ... -->
 
 {% endblock %}
 
@@ -289,6 +282,40 @@ document.getElementById('excelUploadForm').addEventListener('submit', function(e
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     margin-bottom: 1.5rem;
 }
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%;
+    border-radius: 8px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
 </style>
 {% endblock %}
-
