@@ -17,8 +17,8 @@ def create_app(config_name=None):
     
     # Inicialización de la aplicación Flask
     app = Flask(__name__,
-               static_folder='static',
-               template_folder='templates')
+                static_folder='static',
+                template_folder='templates') 
     
     # Cargar configuración
     app.config.from_object(config[config_name])

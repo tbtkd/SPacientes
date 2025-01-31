@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="valoracion-container">
-    <h2>Editar Paciente</h2>
+    <h2 align = "center">Editar Paciente</h2>
     <div class="form-container">
         <form id="formPaciente" action="{{ url_for('pacientes.editar_paciente', id=paciente['id']) }}" method="POST">
             <div class="form-group">
