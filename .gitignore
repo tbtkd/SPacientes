@@ -6,3 +6,6 @@ logs/*
 __pycache__/
 ejecutable/
 .env
+Spacientes
+Spacientes.exe
+output/

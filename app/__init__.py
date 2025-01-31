@@ -2,7 +2,6 @@ import os
 from flask import Flask
 from app.db import init_db
 from app.config import config
-from app.logger import setup_logger
 
 def create_app(config_name=None):
     """
@@ -25,17 +24,15 @@ def create_app(config_name=None):
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
     
-    # Configurar sistema de logging
-    setup_logger(app, config[config_name])
+    # TODO: Descomentar para ambiente de desarrollo
+    # from app.logger import setup_logger
+    # setup_logger(app, config[config_name])
     
     # Inicialización de la base de datos
     try:
         with app.app_context():
-            app.logger.info('Inicializando base de datos...')
             init_db()
-            app.logger.info('Base de datos inicializada correctamente')
     except Exception as e:
-        app.logger.error(f'Error al inicializar la base de datos: {e}')
         raise
     
     # Registro de blueprints

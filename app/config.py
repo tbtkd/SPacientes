@@ -9,8 +9,8 @@ class Config:
     PERMANENT_SESSION_LIFETIME = timedelta(minutes=30)
     
     # Configuración de logging
-    LOG_LEVEL = 'INFO'
-    LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    #LOG_LEVEL = 'INFO'
+    #LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     
     @staticmethod
     def init_app(app):
@@ -21,7 +21,8 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SESSION_COOKIE_SECURE = False  # Permitir HTTP en desarrollo
     DATABASE_URI = 'sqlite:///development.db'
-    LOG_LEVEL = 'DEBUG'
+    # LOG_LEVEL = 'DEBUG' 
+    # TODO: Descomentar para habilitar logging en desarrollo
 
 class ProductionConfig(Config):
     """Configuración de producción"""

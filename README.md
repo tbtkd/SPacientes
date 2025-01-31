@@ -1,100 +1,112 @@
 ## pip freeze > requirements.txt 
 
-## Sistema de Gestión de Pacientes (V1.2)
+## Sistema de Gestión de Pacientes Nutriológicos
 
-Este proyecto es un sistema de gestión de pacientes desarrollado con Python, Flask y SQLite, siguiendo el patrón de diseño MVC.
+## Descripción
+Sistema web para la gestión de pacientes de nutrición, que permite el registro y seguimiento de valoraciones antropométricas, historiales clínicos y control de citas.
 
-## Características
-
-* Gestión de Pacientes:
-  - Registro de pacientes con los siguientes campos:
-    * Nombre
-    * Apellido Paterno
-    * Apellido Materno
-    * Fecha de nacimiento
-    * Teléfono
-    * Correo
-    * Ciudad
-  - Consulta y actualización de información de pacientes
-
-* Historial Clínico:
-  - Registro y consulta de historial médico
-  - Gestión de valoraciones antropométricas
-
-* Base de Datos:
-  - SQLite como almacenamiento principal
-  - Archivo schema.sql para definición del esquema
-
-* Interfaz Web:
-  - Diseño responsivo
-  - Validaciones en el lado del cliente con JavaScript
-
-* Estructura del Proyecto:
-  - app/controllers/ → Controladores de la aplicación
-  - app/models/ → Modelos de datos
-  - app/db.py → Configuración de la base de datos
-  - run.py → Archivo de ejecución principal
-  - requirements.txt → Dependencias del proyecto
+## Características Principales
+- Gestión de pacientes (alta, baja, consulta)
+- Registro de valoraciones antropométricas
+- Historial clínico
+- Importación de datos desde Excel
+- Seguimiento de medidas y progreso
+- Interfaz responsiva
 
 ## Estructura del Proyecto
-
-📁 Sistemapacientes
-│── 📁 static
-│   │── 📁 css
-│   │   │── style.css                # Nuevo diseño mejorado
-│   │   │── forms.css                 # Nuevo diseño para formularios
-│   │   └── sidebar.css               # Sidebar fijo
-│   │── 📁 js
-│   │   └── scripts.js                # Scripts adicionales si es necesario
-│   │── 📁 img
-│   │   └── logo.png                   # Logo del proyecto
-│
-│── 📁 templates
-│   │── base.html                      # Base general con sidebar fijo
-│   │── index.html                      # Página de inicio
-│   │── lista_pacientes.html           # Lista de pacientes con nuevo diseño
-│   │── nuevo_paciente.html            # Formulario con nuevo diseño
-│   │── nueva_valoracion.html          # Formulario con nuevo diseño
-│   │── historial_clinico.html         # Formulario con nuevo diseño
-│   │── editar_paciente.html           # Formulario con nuevo diseño
-│   │── detalle_paciente.html          # Sección de detalle con mejora visual
-│   │── detalle_valoracion.html        # Sección con grid mejorado
-│
-│── 📁 database
-│   │── conexion.py                    # Conexión a la base de datos sin SQLAlchemy
-│   │── queries.py                      # Consultas SQL estructuradas
-│
-│── 📁 routes
-│   │── views.py                        # Rutas generales
-│   │── pacientes.py                    # Módulo de pacientes
-│   │── valoraciones.py                 # Módulo de valoraciones
-│
-│── 📁 static
-│   └── 📁 fonts                        # Si se usan fuentes personalizadas
-│
-│── app.py                              # Punto de entrada del proyecto
-│── requirements.txt                     # Dependencias necesarias
-│── README.md                            # Documentación general
+sistema_pacientes/
+├── app/
+│ ├── controllers/ # Controladores de la aplicación
+│ ├── models/ # Modelos de datos
+│ ├── static/ # Archivos estáticos (CSS, JS, imágenes)
+│ │ ├── css/
+│ │ ├── js/
+│ │ └── img/
+│ ├── templates/ # Plantillas HTML
+│ └── init.py # Inicialización de la aplicación
+├── instance/ # Base de datos SQLite
+├── tests/ # Pruebas unitarias
+├── venv/ # Entorno virtual (no incluido en repositorio)
+├── .gitignore
+├── config.py # Configuraciones
+├── README.md
+├── requirements.txt # Dependencias
+└── run.py # Script de inicio
 
 
-## Instalación y Uso
+## Configuración del Entorno
 
+### Requisitos Previos
+- Python 3.8+
+- pip (gestor de paquetes de Python)
+
+### Instalación
 1. Clonar el repositorio:
-  * git clone <repo_url>
-  * cd SistemaPacientes
 
-2. Instalar dependencias:
+ * git clone [url-del-repositorio]
+ * cd sistema_pacientes
+
+2. Crear y activar entorno virtual:
+
+  * python -m venv venv
+  * source venv/bin/activate # Linux/Mac
+  * venv\Scripts\activate # Windows
+
+3. Instalar dependencias:
+
   * pip install -r requirements.txt
 
-3. Iniciar la aplicación:
-  * python run.py
+4. Configurar variables de entorno:
 
-## Mejoras Futuras
-  * Implementación de autenticación de usuarios
-  * Reportes y estadísticas de pacientes
-  * Integración con una API externa para geolocalización de pacientes
+  * Linux/Mac
+    - export FLASK_ENV=development # o production
+    - export FLASK_APP=run.py
 
-## Actualizado 31/01/2025
-Se realizaron los ajustes al modulo nueva valoración, actualmente ya se cuenta con la funcionalidad para poder capturaar pacientes, historial clinico
-valoracion antropometrica, consultar estos valores, consultar pacientes, capturar ultima dieta, capturar fecha de pago y alta masiva de información
-desde un xls o xlsx
+  * Windows
+    - set FLASK_ENV=development
+    - set FLASK_APP=run.py
+
+### Ejecución
+- Desarrollo:
+
+  * Linux/Mac
+    - ./run_dev.sh
+
+  * Windows
+    - run_dev.bat
+
+## Cambios entre Desarrollo y Producción
+
+### Para Desarrollo:
+1. En `config.py`: Usar `DevelopmentConfig`
+2. En `__init__.py`: Descomentar configuración de logging
+3. Activar `DEBUG = True`
+4. Usar base de datos de desarrollo
+
+### Para Producción:
+1. En `config.py`: Usar `ProductionConfig`
+2. En `__init__.py`: Mantener comentada la configuración de logging
+3. Asegurar `DEBUG = False`
+4. Usar base de datos de producción
+5. Configurar `SECRET_KEY` segura
+
+## Mantenimiento
+- Base de datos: SQLite (puede cambiarse a otro motor si se requiere)
+- Logs: Desactivados por defecto, activar en desarrollo si se necesita
+- Caché: Implementada para optimizar consultas frecuentes
+
+## Seguridad
+- Sesiones seguras configuradas
+- Validación de datos en frontend y backend
+- Protección contra CSRF
+- Sanitización de entradas de usuario
+
+## Contribución
+1. Fork del repositorio
+2. Crear rama para nueva característica
+3. Commit de cambios
+4. Push a la rama
+5. Crear Pull Request
+
+## Licencia
+[Especificar licencia]

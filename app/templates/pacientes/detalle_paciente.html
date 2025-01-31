@@ -56,8 +56,8 @@
                         <i class="fas fa-upload"></i> Cargar
                     </button>
                 </form>
+                <div id="resultadoCarga" class="upload-message"></div>
             </div>
-            <div id="resultadoCarga"></div>
         </div>
     </div>
 
@@ -189,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Configurar el formulario de carga
     const formCargarExcel = document.getElementById('formCargarExcel');
+    const resultadoCarga = document.getElementById('resultadoCarga');
     
     if (formCargarExcel) {
         const pacienteId = '{{ paciente["id"] }}';
@@ -198,6 +199,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const submitButton = this.querySelector('button[type="submit"]');
             submitButton.disabled = true;
             submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cargando...';
+            resultadoCarga.className = 'upload-message';
+            resultadoCarga.textContent = 'Procesando archivo...';
             
             const formData = new FormData(this);
             
@@ -208,14 +211,24 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('Archivo cargado exitosamente');
-                    window.location.reload();
+                    if (data.registros_duplicados > 0 && data.registros_procesados === 0) {
+                        resultadoCarga.className = 'upload-message warning';
+                        resultadoCarga.textContent = 'Los registros del archivo ya han sido procesados anteriormente.';
+                    } else if (data.registros_procesados > 0) {
+                        resultadoCarga.className = 'upload-message success';
+                        resultadoCarga.textContent = data.message;
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1500);
+                    }
                 } else {
-                    alert('Error al cargar el archivo: ' + data.message);
+                    resultadoCarga.className = 'upload-message error';
+                    resultadoCarga.textContent = 'Error al cargar el archivo: ' + data.message;
                 }
             })
             .catch(error => {
-                alert('Error al cargar el archivo: ' + error);
+                resultadoCarga.className = 'upload-message error';
+                resultadoCarga.textContent = 'Error al cargar el archivo: ' + error;
             })
             .finally(() => {
                 submitButton.disabled = false;

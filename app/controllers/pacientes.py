@@ -169,6 +169,7 @@ def cargar_excel(id):
         estatura = sheet['M8'].value if sheet['M8'].value else None
         row = 10
         registros_procesados = 0
+        registros_duplicados = 0
         errores = []
         
         while True:
@@ -178,13 +179,13 @@ def cargar_excel(id):
             try:
                 fecha = convertir_fecha(sheet.cell(row=row, column=13).value)
                 if not fecha:
-                    errores.append(f"Error en fila {row}: Formato de fecha inválido ({sheet.cell(row=row, column=13).value})")
+                    errores.append(f"Error en fila {row}: Formato de fecha inválido")
                     row += 1
                     continue
                 
                 numero_cita = sheet.cell(row=row, column=12).value
                 if existe_registro(id, numero_cita, fecha):
-                    errores.append(f"Error en fila {row}: Registro con número de cita {numero_cita} y fecha {fecha} ya existe.")
+                    registros_duplicados += 1
                     row += 1
                     continue
                 
@@ -224,9 +225,19 @@ def cargar_excel(id):
             
             row += 1
         
+        mensaje = ''
+        if registros_duplicados > 0:
+            mensaje = f'Se encontraron {registros_duplicados} registros que ya existen en el sistema. '
+        if registros_procesados > 0:
+            mensaje += f'Se agregaron {registros_procesados} nuevos registros.'
+        elif registros_duplicados > 0:
+            mensaje += 'No se agregaron nuevos registros.'
+        
         resultado = {
             'success': True,
-            'message': f'Se procesaron {registros_procesados} registros. Proceso finalizado correctamente.',
+            'message': mensaje,
+            'registros_duplicados': registros_duplicados,
+            'registros_procesados': registros_procesados,
             'errores': errores if errores else "No se encontraron errores."
         }
         return jsonify(resultado)

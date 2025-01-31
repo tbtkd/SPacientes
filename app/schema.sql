@@ -4,12 +4,12 @@ CREATE TABLE IF NOT EXISTS pacientes (
     nombre TEXT NOT NULL,
     apellido_paterno TEXT NOT NULL,
     apellido_materno TEXT NOT NULL,
-    fecha_nacimiento TEXT NOT NULL,
+    fecha_nacimiento DATE NOT NULL,
     telefono TEXT NOT NULL,
     correo TEXT UNIQUE NOT NULL,
     ciudad TEXT NOT NULL,
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status TEXT CHECK(estatus IN ('activo', 'cancelado', 'baja')) DEFAULT 'activo'
+    status TEXT DEFAULT 'activo'
 );
 
 -- Verificar si la tabla historial_clinico existe

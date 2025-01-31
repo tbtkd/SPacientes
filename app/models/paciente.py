@@ -64,7 +64,7 @@ class Paciente:
     @staticmethod
     def actualizar_estatus(paciente_id, status):
         db = get_db()
-        db.execute('UPDATE pacientes SET estatus = ? WHERE id = ?', (status, paciente_id))
+        db.execute('UPDATE pacientes SET status = ? WHERE id = ?', (status, paciente_id))
         db.commit()
 
     @staticmethod
