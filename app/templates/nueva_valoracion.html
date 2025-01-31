@@ -6,108 +6,180 @@
 <div class="table-container">
     <h2>Nueva Valoración Antropométrica para {{ paciente['nombre'] }} {{ paciente['apellido_paterno'] }}</h2>
     <div class="form-container">
+        <!-- Formulario con pestañas -->
         <form id="formValoracion" method="POST">
-            <div class="form-group">
-                <label for="numero_cita" class="form-label">Número de cita:</label>
-                <input type="number" id="numero_cita" name="numero_cita" class="form-input" required>
+            <div x-data="{ activeTab: 'antropometrica' }">
+                <!-- Pestañas -->
+                <div class="tabs">
+                    <button type="button" @click="activeTab = 'antropometrica'" :class="{ 'tabs__button--active': activeTab === 'antropometrica' }" class="tabs__button">
+                        Antropométrica
+                    </button>
+                    <button type="button" @click="activeTab = 'plicometria'" :class="{ 'tabs__button--active': activeTab === 'plicometria' }" class="tabs__button">
+                        Plicometría
+                    </button>
+                    <button type="button" @click="activeTab = 'bioimpedancia'" :class="{ 'tabs__button--active': activeTab === 'bioimpedancia' }" class="tabs__button">
+                        Datos de Bioimpedancia
+                    </button>
+                </div>
+
+                <!-- Contenido de la pestaña Antropométrica -->
+                <div x-show="activeTab === 'antropometrica'">
+                    <div class="form-group">
+                        <label for="numero_cita" class="form-label">Número de cita:</label>
+                        <input type="number" id="numero_cita" name="numero_cita" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha" class="form-label">Fecha:</label>
+                        <input type="date" id="fecha" name="fecha" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="estatura" class="form-label">Estatura (cm):</label>
+                        <input type="number" id="estatura" name="estatura" step="0.1" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="peso" class="form-label">Peso (kg):</label>
+                        <input type="number" id="peso" name="peso" step="0.1" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cintura" class="form-label">Cintura (cm):</label>
+                        <input type="number" id="cintura" name="cintura" step="0.1" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="torax" class="form-label">Tórax (cm):</label>
+                        <input type="number" id="torax" name="torax" step="0.1" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="brazo" class="form-label">Brazo (cm):</label>
+                        <input type="number" id="brazo" name="brazo" step="0.1" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cadera" class="form-label">Cadera (cm):</label>
+                        <input type="number" id="cadera" name="cadera" step="0.1" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pierna" class="form-label">Pierna (cm):</label>
+                        <input type="number" id="pierna" name="pierna" step="0.1" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pantorrilla" class="form-label">Pantorrilla (cm):</label>
+                        <input type="number" id="pantorrilla" name="pantorrilla" step="0.1" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tension_arterial" class="form-label">Tensión arterial:</label>
+                        <input type="text" id="tension_arterial" name="tension_arterial" class="form-input" required placeholder="Ej: 120/80">
+                    </div>
+                    <div class="form-group">
+                        <label for="frecuencia_cardiaca" class="form-label">Frecuencia cardíaca (lpm):</label>
+                        <input type="number" id="frecuencia_cardiaca" name="frecuencia_cardiaca" class="form-input" required>
+                    </div>
+                </div>
+
+                <!-- Contenido de la pestaña Plicometría -->
+                <div x-show="activeTab === 'plicometria'">
+                    <div class="form-group">
+                        <label for="bicep" class="form-label">Bícep (mm):</label>
+                        <input type="number" id="bicep" name="bicep" step="0.1" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tricep" class="form-label">Trícep (mm):</label>
+                        <input type="number" id="tricep" name="tricep" step="0.1" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="suprailiaco" class="form-label">Suprailiaco (mm):</label>
+                        <input type="number" id="suprailiaco" name="suprailiaco" step="0.1" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subescapular" class="form-label">Subescapular (mm):</label>
+                        <input type="number" id="subescapular" name="subescapular" step="0.1" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="femoral" class="form-label">Femoral (mm) (solo para mujeres):</label>
+                        <input type="number" id="femoral" name="femoral" step="0.1" class="form-input">
+                    </div>
+                </div>
+
+                <!-- Contenido de la pestaña Datos de Bioimpedancia -->
+                <div x-show="activeTab === 'bioimpedancia'">
+                    <div class="form-group">
+                        <label for="grasa" class="form-label">Grasa (%):</label>
+                        <input type="number" id="grasa" name="grasa" step="0.1" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="imc" class="form-label">IMC:</label>
+                        <input type="number" id="imc" name="imc" step="0.01" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="porcentaje_grasa" class="form-label">Grasa Total:</label>
+                        <input type="number" id="porcentaje_grasa" name="porcentaje_grasa" step="0.1" class="form-input" required>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="fecha" class="form-label">Fecha:</label>
-                <input type="date" id="fecha" name="fecha" class="form-input" required>
-            </div>
-            <div class="form-group">
-                <label for="estatura" class="form-label">Estatura (cm):</label>
-                <input type="number" id="estatura" name="estatura" step="0.1" class="form-input" required>
-            </div>
-            <div class="form-group">
-                <label for="peso" class="form-label">Peso (kg):</label>
-                <input type="number" id="peso" name="peso" step="0.1" class="form-input" required>
-            </div>
-            <div class="form-group">
-                <label for="imc" class="form-label">IMC:</label>
-                <input type="number" id="imc" name="imc" step="0.01" class="form-input" required>
-            </div>
-            <div class="form-group">
-                <label for="grasa" class="form-label">Grasa (%):</label>
-                <input type="number" id="grasa" name="grasa" step="0.1" class="form-input" required>
-            </div>
-            <div class="form-group">
-                <label for="cintura" class="form-label">Cintura (cm):</label>
-                <input type="number" id="cintura" name="cintura" step="0.1" class="form-input" required>
-            </div>
-            <div class="form-group">
-                <label for="torax" class="form-label">Tórax (cm):</label>
-                <input type="number" id="torax" name="torax" step="0.1" class="form-input" required>
-            </div>
-            <div class="form-group">
-                <label for="brazo" class="form-label">Brazo (cm):</label>
-                <input type="number" id="brazo" name="brazo" step="0.1" class="form-input" required>
-            </div>
-            <div class="form-group">
-                <label for="cadera" class="form-label">Cadera (cm):</label>
-                <input type="number" id="cadera" name="cadera" step="0.1" class="form-input" required>
-            </div>
-            <div class="form-group">
-                <label for="pierna" class="form-label">Pierna (cm):</label>
-                <input type="number" id="pierna" name="pierna" step="0.1" class="form-input" required>
-            </div>
-            <div class="form-group">
-                <label for="pantorrilla" class="form-label">Pantorrilla (cm):</label>
-                <input type="number" id="pantorrilla" name="pantorrilla" step="0.1" class="form-input" required>
-            </div>
-            <div class="form-group">
-                <label for="tension_arterial" class="form-label">Tensión arterial:</label>
-                <input type="text" id="tension_arterial" name="tension_arterial" class="form-input" required placeholder="Ej: 120/80">
-            </div>
-            <div class="form-group">
-                <label for="frecuencia_cardiaca" class="form-label">Frecuencia cardíaca (lpm):</label>
-                <input type="number" id="frecuencia_cardiaca" name="frecuencia_cardiaca" class="form-input" required>
-            </div>
-            <h3>Plicometría</h3>
-            <div class="form-group">
-                <label for="bicep" class="form-label">Bícep (mm):</label>
-                <input type="number" id="bicep" name="bicep" step="0.1" class="form-input" required>
-            </div>
-            <div class="form-group">
-                <label for="tricep" class="form-label">Trícep (mm):</label>
-                <input type="number" id="tricep" name="tricep" step="0.1" class="form-input" required>
-            </div>
-            <div class="form-group">
-                <label for="suprailiaco" class="form-label">Suprailiaco (mm):</label>
-                <input type="number" id="suprailiaco" name="suprailiaco" step="0.1" class="form-input" required>
-            </div>
-            <div class="form-group">
-                <label for="subescapular" class="form-label">Subescapular (mm):</label>
-                <input type="number" id="subescapular" name="subescapular" step="0.1" class="form-input" required>
-            </div>
-            <div class="form-group">
-                <label for="femoral" class="form-label">Femoral (mm) (solo para mujeres):</label>
-                <input type="number" id="femoral" name="femoral" step="0.1" class="form-input">
-            </div>
-            <div class="form-group">
-                <label for="porcentaje_grasa" class="form-label">% de grasa total:</label>
-                <input type="number" id="porcentaje_grasa" name="porcentaje_grasa" step="0.1" class="form-input" required>
-            </div>
+
+            <!-- Botón de guardar -->
             <button type="submit" class="form-button">Guardar Valoración</button>
         </form>
     </div>
-</div> 
+</div>
 {% endblock %}
 
-{% block scripts %}
-<script type="module">
-    import { validarFormularioValoracion } from "{{ url_for('static', filename='js/validaciones/valoracionValidacion.js') }}";
+<style>
+    /* Estilos para las pestañas */
+    .tabs {
+        display: flex;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #3498db;
+    }
 
-    document.addEventListener("DOMContentLoaded", () => {
-        const form = document.getElementById("formValoracion");
-        if (form) {
-            form.addEventListener("submit", (event) => {
-                if (!validarFormularioValoracion()) {
-                    event.preventDefault();
-                }
-            });
-        }
-    });
-</script>
-{% endblock %}
+    .tabs__button {
+        flex: 1;
+        padding: 10px;
+        background-color: #f1f1f1;
+        border: 1px solid #ccc;
+        border-bottom: none;
+        cursor: pointer;
+        text-align: center;
+        font-size: 16px;
+        transition: background-color 0.3s, color 0.3s;
+    }
 
+    .tabs__button--active {
+        background-color: #3498db;
+        color: white;
+        border-color: #3498db;
+    }
+
+    .tabs__button:hover {
+        background-color: #ddd;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .form-button {
+        padding: 10px 20px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .form-button:hover {
+        background-color: #2980b9;
+    }
+</style>

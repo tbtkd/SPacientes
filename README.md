@@ -1,6 +1,6 @@
 ## pip freeze > requirements.txt 
 
-## Sistema de Gestión de Pacientes (V1.1)
+## Sistema de Gestión de Pacientes (V1.2)
 
 Este proyecto es un sistema de gestión de pacientes desarrollado con Python, Flask y SQLite, siguiendo el patrón de diseño MVC.
 
@@ -93,3 +93,8 @@ Este proyecto es un sistema de gestión de pacientes desarrollado con Python, Fl
   * Implementación de autenticación de usuarios
   * Reportes y estadísticas de pacientes
   * Integración con una API externa para geolocalización de pacientes
+
+## Actualizado 31/01/2025
+Se realizaron los ajustes al modulo nueva valoración, actualmente ya se cuenta con la funcionalidad para poder capturaar pacientes, historial clinico
+valoracion antropometrica, consultar estos valores, consultar pacientes, capturar ultima dieta, capturar fecha de pago y alta masiva de información
+desde un xls o xlsx
