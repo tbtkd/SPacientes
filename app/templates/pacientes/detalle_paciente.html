@@ -33,21 +33,31 @@
         <a href="{{ url_for('historial_clinico.ver_crear_historial', paciente_id=paciente['id']) }}" class="action-button">
             <i class="fas fa-notes-medical"></i> Capturar/Actualizar Historial Clínico
         </a>
-        <button onclick="openExcelModal()" class="action-button">
+        <button type="button" id="btnOpenExcelModal" class="action-button">
             <i class="fas fa-file-excel"></i> Cargar Excel
         </button>
     </div>
 
     <!-- Excel Upload Modal -->
-    <div id="excelModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeExcelModal()">&times;</span>
-            <h2>Cargar Archivo Excel</h2>
-            <form id="excelUploadForm" action="{{ url_for('pacientes.cargar_excel', id=paciente['id']) }}" method="POST" enctype="multipart/form-data">
-                <input type="file" id="excelFile" name="excel_file" accept=".xls,.xlsx" required>
-                <button type="submit" class="modern-action-button">Cargar</button>
-            </form>
-            <div id="uploadResult"></div>
+    <div id="modalCargarExcel" class="modal">
+        <div class="modal-upload">
+            <div class="modal-upload__header">
+                <h2 class="modal-upload__title">Cargar Archivo Excel</h2>
+                <button class="modal-upload__close">&times;</button>
+            </div>
+            <div class="modal-upload__content">
+                <form id="formCargarExcel" enctype="multipart/form-data" class="file-upload" method="POST">
+                    <input type="file" 
+                           name="excel_file" 
+                           accept=".xls,.xlsx" 
+                           class="file-upload__input" 
+                           required>
+                    <button type="submit" class="upload-button">
+                        <i class="fas fa-upload"></i> Cargar
+                    </button>
+                </form>
+            </div>
+            <div id="resultadoCarga"></div>
         </div>
     </div>
 
@@ -165,32 +175,54 @@
 {{ super() }}
 <script type="module">
 import { initModal } from "{{ url_for('static', filename='js/components/modal.js') }}";
-initModal();
 
-document.getElementById('excelUploadForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    var formData = new FormData(this);
+document.addEventListener('DOMContentLoaded', () => {
+    initModal();
     
-    fetch('{{ url_for("pacientes.cargar_excel", id=paciente["id"]) }}', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        var resultDiv = document.getElementById('uploadResult');
-        if (data.success) {
-            resultDiv.innerHTML = `<p>${data.message}</p>`;
-            if (data.errores && data.errores.length > 0) {
-                resultDiv.innerHTML += '<ul>' + data.errores.map(error => `<li>${error}</li>`).join('') + '</ul>';
-            }
-        } else {
-            resultDiv.innerHTML = `<p>Error: ${data.message}</p>`;
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        document.getElementById('uploadResult').innerHTML = '<p>Error al procesar la solicitud</p>';
-    });
+    // Agregar evento al botón de abrir modal
+    const btnOpenModal = document.getElementById('btnOpenExcelModal');
+    if (btnOpenModal) {
+        btnOpenModal.addEventListener('click', () => {
+            openExcelModal();
+        });
+    }
+    
+    // Configurar el formulario de carga
+    const formCargarExcel = document.getElementById('formCargarExcel');
+    
+    if (formCargarExcel) {
+        const pacienteId = '{{ paciente["id"] }}';
+        
+        formCargarExcel.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const submitButton = this.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cargando...';
+            
+            const formData = new FormData(this);
+            
+            fetch(`/pacientes/${pacienteId}/cargar-excel`, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Archivo cargado exitosamente');
+                    window.location.reload();
+                } else {
+                    alert('Error al cargar el archivo: ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('Error al cargar el archivo: ' + error);
+            })
+            .finally(() => {
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<i class="fas fa-upload"></i> Cargar';
+            });
+        });
+    }
 });
 </script>
 {% endblock %}
