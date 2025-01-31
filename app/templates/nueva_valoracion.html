@@ -114,9 +114,13 @@
                     </div>
                 </div>
             </div>
-
+            <div class="action-buttons">
             <!-- Botón de guardar -->
-            <button type="submit" class="form-button">Guardar Valoración</button>
+            <a href="{{ url_for('pacientes.detalle_paciente', id=paciente['id']) }}" class="action-button">
+                <i class="fas fa-arrow-left"></i> Volver al Paciente
+            </a>
+            <button type="submit" class="action-button">Guardar Valoración</button>
+            </div>
         </form>
     </div>
 </div>

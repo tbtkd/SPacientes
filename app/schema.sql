@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS pacientes (
     correo TEXT UNIQUE NOT NULL,
     ciudad TEXT NOT NULL,
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    estatus TEXT CHECK(estatus IN ('activo', 'cancelado', 'baja')) DEFAULT 'activo'
+    status TEXT CHECK(estatus IN ('activo', 'cancelado', 'baja')) DEFAULT 'activo'
 );
 
 -- Verificar si la tabla historial_clinico existe
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS pagos (
 );
 
 -- Modificar la tabla valoracion_antropometrica
-CREATE TABLE IF NOT EXISTS valoracion_antropometrica_nueva (
+CREATE TABLE IF NOT EXISTS valoracion_antropometrica (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     paciente_id INTEGER NOT NULL,
     numero_cita INTEGER NOT NULL,

@@ -83,7 +83,13 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="form-button">Guardar Historial Clínico</button>
+            <div class="action-buttons">
+                <a href="{{ url_for('pacientes.detalle_paciente', id=paciente['id']) }}" class="action-button">
+                    <i class="fas fa-arrow-left"></i> Volver al Paciente
+                </a>
+            
+                <button type="submit" class="action-button">Guardar Historial Clínico</button>
+            </div>
         </form>
     </div>
 </div>
