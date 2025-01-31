@@ -2,9 +2,9 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app.models.paciente import Paciente
 from app.models.historial_clinico import HistorialClinico
 
-historial_clinico = Blueprint('historial_clinico', __name__)
+historial_clinico = Blueprint('historial_clinico', __name__, url_prefix='/historial-clinico')
 
-@historial_clinico.route('/pacientes/<int:paciente_id>/historial-clinico', methods=['GET', 'POST'])
+@historial_clinico.route('/paciente/<int:paciente_id>', methods=['GET', 'POST'])
 def ver_crear_historial(paciente_id):
     paciente = Paciente.obtener_por_id(paciente_id)
     if not paciente:
@@ -44,10 +44,10 @@ def ver_crear_historial(paciente_id):
         'Dislipidemias', 'Presión arterial', 'Otro descontrol metabólico'
     ]
 
-    return render_template('historial_clinico.html', paciente=paciente, historial=historial, padecimientos_opciones=padecimientos_opciones)
+    return render_template('historiales/historial_clinico.html', paciente=paciente, historial=historial, padecimientos_opciones=padecimientos_opciones)
 
-@historial_clinico.route('/historial-clinico')
+@historial_clinico.route('/')
 def lista_historiales():
     historiales = HistorialClinico.obtener_todos()
-    return render_template('lista_historiales.html', historiales=historiales)
+    return render_template('historiales/lista_historiales.html', historiales=historiales)
 

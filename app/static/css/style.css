@@ -14,9 +14,10 @@ body {
 /* Estilos para el sidebar */
 .sidebar {
   width: 250px;
-  background-color: #f0f0f0;
+  background-color: #f8f9fe;
   padding: 20px;
   transition: all 0.3s ease;
+  border-right: 1px solid #e5e7eb;
 }
 
 .sidebar__title {
@@ -26,39 +27,63 @@ body {
 .sidebar__list {
   list-style-type: none;
   padding: 0;
+  margin-top: 2rem;
 }
 
 .sidebar__item {
-  margin-bottom: 10px;
+  margin-bottom: 0.5rem;
 }
 
 .sidebar__link {
   text-decoration: none;
-  color: #333;
+  color: #64748b;
   display: flex;
   align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  font-size: 0.875rem;
+}
+
+.sidebar__link:hover {
+  background-color: #e6efff;
+  color: #3b82f6;
+}
+
+.sidebar__link.active {
+  background-color: #e6efff;
+  color: #3b82f6;
+  font-weight: 500;
 }
 
 .sidebar__icon {
   margin-right: 10px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.sidebar__toggle {
-  display: none;
+.sidebar__header {
+  padding: 1rem;
+  text-align: center;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 1.5rem;
 }
 
-.sidebar__dropdown {
-  cursor: pointer;
-}
-
-.sidebar__submenu {
-  padding-left: 20px;
+.sidebar__logo {
+  max-width: 150px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
 /* Estilos para el contenido principal */
 .content {
   flex: 1;
   padding: 20px;
+  background-color: #fff;
 }
 
 /* Estilos para formularios */
@@ -292,6 +317,7 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  background-color: #fff;
 }
 
 .valoracion-header {
@@ -412,18 +438,6 @@ body {
   }
 }
 
-.sidebar__header {
-  padding: 1rem;
-  text-align: center;
-}
-
-.sidebar__logo {
-  max-width: 200px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-}
-
 .search-form {
   margin-bottom: 50px;
 }
@@ -465,15 +479,5 @@ body {
 
 .action-buttons .modern-action-button {
   margin-right: 10px;
-}
-
-.sidebar__header {
-  padding: 1rem;
-  text-align: center;
-}
-
-.sidebar__logo {
-  max-width: 200px;
-  height: auto;
 }
 

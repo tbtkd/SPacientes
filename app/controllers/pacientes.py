@@ -10,46 +10,51 @@ from app.models.valoracion_antropometrica import ValoracionAntropometrica
 import sqlite3
 from app.db import query_db
 
-pacientes = Blueprint('pacientes', __name__)
+pacientes = Blueprint('pacientes', __name__, url_prefix='/pacientes')
 
-@pacientes.route('/pacientes/nuevo', methods=['GET', 'POST'])
+@pacientes.route('/nuevo', methods=['GET', 'POST'])
 def nuevo_paciente():
     if request.method == 'POST':
         try:
+            # Obtener y validar datos del formulario
+            nombre = request.form.get('nombre', '').strip()
+            apellido_paterno = request.form.get('apellido_paterno', '').strip()
+            apellido_materno = request.form.get('apellido_materno', '').strip()
+            fecha_nacimiento = request.form.get('fecha_nacimiento', '').strip()
+            telefono = request.form.get('telefono', '').strip()
+            correo = request.form.get('correo', '').strip()
+            ciudad = request.form.get('ciudad', '').strip()
+            
+            # Validaciones básicas
+            if not all([nombre, apellido_paterno, apellido_materno, fecha_nacimiento, telefono, correo, ciudad]):
+                flash('Todos los campos son obligatorios', 'error')
+                return render_template('pacientes/nuevo_paciente.html')
+            
+            # Validar teléfono
+            if len(telefono) != 10 or not telefono.isdigit():
+                flash('El teléfono debe tener exactamente 10 dígitos numéricos', 'error')
+                return render_template('pacientes/nuevo_paciente.html')
+            
             Paciente.crear(
-                request.form['nombre'], request.form['apellido_paterno'], 
-                request.form['apellido_materno'], request.form['fecha_nacimiento'], 
-                request.form['telefono'], request.form['correo'], request.form['ciudad']
+                nombre, apellido_paterno, 
+                apellido_materno, fecha_nacimiento, 
+                telefono,
+                correo, ciudad
             )
             flash('Paciente registrado exitosamente', 'success')
             return redirect(url_for('pacientes.lista_pacientes'))
-        except sqlite3.IntegrityError:
-            flash('Error: El correo electrónico ya está registrado', 'error')
         except Exception as e:
             flash(f'Error al registrar el paciente: {str(e)}', 'error')
-    return render_template('nuevo_paciente.html')
+            return render_template('pacientes/nuevo_paciente.html')
+    return render_template('pacientes/nuevo_paciente.html')
 
-@pacientes.route('/pacientes')
+@pacientes.route('/')
 def lista_pacientes():
     busqueda = request.args.get('busqueda', '')
     pacientes = Paciente.buscar(busqueda)
-    return render_template('lista_pacientes.html', pacientes=pacientes, busqueda=busqueda)
-"""
-@pacientes.route('/pacientes/<int:id>')
-def detalle_paciente(id):
-    paciente = Paciente.obtener_por_id(id)
-    if paciente is None:
-        flash('Paciente no encontrado', 'error')
-        return redirect(url_for('pacientes.lista_pacientes'))
-    
-    ultimo_pago = Pago.obtener_ultimo_pago(id)
-    historial = HistorialClinico.obtener_por_paciente_id(id)
-    return render_template('detalle_paciente.html', 
-                            paciente=paciente, 
-                            ultimo_pago=ultimo_pago,
-                            historial=historial)
-"""
-@pacientes.route('/pacientes/<int:id>', methods=['GET', 'POST'])
+    return render_template('pacientes/lista_pacientes.html', pacientes=pacientes, busqueda=busqueda)
+
+@pacientes.route('/<int:id>', methods=['GET', 'POST'])
 def detalle_paciente(id):
     paciente = Paciente.obtener_por_id(id)
     if paciente is None:
@@ -79,13 +84,13 @@ def detalle_paciente(id):
     ultimo_pago = Pago.obtener_ultimo_pago(id)
     historial = HistorialClinico.obtener_por_paciente_id(id)
     ultima_valoracion = ValoracionAntropometrica.obtener_ultima_por_paciente(id)
-    return render_template('detalle_paciente.html', 
+    return render_template('pacientes/detalle_paciente.html', 
                             paciente=paciente, 
                             ultimo_pago=ultimo_pago,
                             historial=historial,
                             ultima_valoracion=ultima_valoracion)
 
-@pacientes.route('/pacientes/<int:id>/editar', methods=['GET', 'POST'])
+@pacientes.route('/<int:id>/editar', methods=['GET', 'POST'])
 def editar_paciente(id):
     paciente = Paciente.obtener_por_id(id)
     if paciente is None:
@@ -106,9 +111,9 @@ def editar_paciente(id):
             flash('Error: El correo electrónico ya está registrado', 'error')
         except Exception as e:
             flash(f'Error al actualizar el paciente: {str(e)}', 'error')
-    return render_template('editar_paciente.html', paciente=paciente)
+    return render_template('pacientes/editar_paciente.html', paciente=paciente)
 
-@pacientes.route('/pacientes/<int:id>/pago', methods=['POST'])
+@pacientes.route('/<int:id>/pago', methods=['POST'])
 def registrar_pago_paciente(id):
     fecha_pago = request.form['fecha_pago']
     Pago.registrar(id, fecha_pago)
@@ -148,7 +153,7 @@ def existe_registro(paciente_id, numero_cita, fecha):
                          [paciente_id, numero_cita, fecha], one=True)
     return resultado is not None
 
-@pacientes.route('/pacientes/<int:id>/cargar-excel', methods=['POST'])
+@pacientes.route('/<int:id>/cargar-excel', methods=['POST'])
 def cargar_excel(id):
     if 'excel_file' not in request.files:
         return jsonify({'success': False, 'message': 'No se seleccionó ningún archivo'})

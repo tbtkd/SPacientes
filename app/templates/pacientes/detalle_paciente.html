@@ -1,10 +1,10 @@
-{% extends "base.html" %}
+{% extends "base/base.html" %}
 
 {% block title %}Detalle del Paciente{% endblock %}
 
 {% block head %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/detalle_paciente_grid.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/detalle_paciente_grid.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -163,14 +163,9 @@
 
 {% block scripts %}
 {{ super() }}
-<script>
-function openExcelModal() {
-    document.getElementById('excelModal').style.display = 'block';
-}
-
-function closeExcelModal() {
-    document.getElementById('excelModal').style.display = 'none';
-}
+<script type="module">
+import { initModal } from "{{ url_for('static', filename='js/components/modal.js') }}";
+initModal();
 
 document.getElementById('excelUploadForm').addEventListener('submit', function(e) {
     e.preventDefault();
@@ -198,124 +193,4 @@ document.getElementById('excelUploadForm').addEventListener('submit', function(e
     });
 });
 </script>
-
-<style>
-.grid-container {
-    margin: 2rem 0;
-}
-
-.grid-section {
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.grid-section h3 {
-    color: #2c3e50;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.grid-section h3 i {
-    color: #3498db;
-}
-
-.grid-data {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-}
-
-.grid-item {
-    background-color: white;
-    padding: 1rem;
-    border-radius: 6px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-.grid-item strong {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #2c3e50;
-}
-
-.grid-item p {
-    margin: 0;
-    color: #666;
-}
-
-.action-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin: 1rem 0;
-}
-
-.action-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.payment-section {
-    background-color: #f8f9fa;
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin: 1rem 0;
-}
-
-.no-data {
-    text-align: center;
-    color: #666;
-    padding: 2rem;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-}
-
-.paciente-detalle {
-    background-color: white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    margin-bottom: 1.5rem;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4);
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 30%;
-    border-radius: 8px;
-}
-
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-</style>
 {% endblock %}

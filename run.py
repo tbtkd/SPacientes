@@ -16,9 +16,16 @@ if __name__ == '__main__':
     # para dar tiempo a que Flask inicie
     Timer(1.5, open_browser, args=[port]).start()
     
-    # Cambiamos host a 127.0.0.1 para mejor compatibilidad con exe
+    # Configuración de desarrollo con auto-recarga
+    debug_mode = os.getenv('FLASK_ENV') == 'development'
     app.run(
         host='127.0.0.1',
         port=port,
-        debug=(os.getenv('FLASK_ENV') == 'development')
+        debug=debug_mode,
+        use_reloader=debug_mode,
+        extra_files=[  # Monitorear cambios en archivos estáticos y templates
+            'app/static/css/',
+            'app/static/js/',
+            'app/templates/'
+        ]
     )

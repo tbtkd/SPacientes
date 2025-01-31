@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base/base.html" %}
 
 {% block title %}Historial Clínico - {{ paciente['nombre'] }} {{ paciente['apellido_paterno'] }}{% endblock %}
 
@@ -9,13 +9,30 @@
 
         <form id="formHistorialClinico" method="POST">
             <div x-data="{ activeTab: 'actividad-fisica' }">
-                <div class="tabs">
-                    <button type="button" @click="activeTab = 'actividad-fisica'" :class="{ 'tabs__button--active': activeTab === 'actividad-fisica' }" class="tabs__button">Actividad Física</button>
-                    <button type="button" @click="activeTab = 'alimentacion'" :class="{ 'tabs__button--active': activeTab === 'alimentacion' }" class="tabs__button">Alimentación</button>
-                    <button type="button" @click="activeTab = 'historial-medico'" :class="{ 'tabs__button--active': activeTab === 'historial-medico' }" class="tabs__button">Historial Médico</button>
+                <div class="form-tabs">
+                    <button type="button" 
+                        @click="activeTab = 'actividad-fisica'" 
+                        :class="{ 'active': activeTab === 'actividad-fisica' }" 
+                        class="form-tab">
+                        Actividad Física
+                    </button>
+                    <button type="button" 
+                        @click="activeTab = 'alimentacion'" 
+                        :class="{ 'active': activeTab === 'alimentacion' }" 
+                        class="form-tab">
+                        Alimentación
+                    </button>
+                    <button type="button" 
+                        @click="activeTab = 'historial-medico'" 
+                        :class="{ 'active': activeTab === 'historial-medico' }" 
+                        class="form-tab">
+                        Historial Médico
+                    </button>
                 </div>
 
-                <div x-show="activeTab === 'actividad-fisica'">
+                <div x-show="activeTab === 'actividad-fisica'" 
+                     class="form-section"
+                     :class="{ 'active': activeTab === 'actividad-fisica' }">
                     <h3>Actividad Física</h3>
                     <div class="form-group">
                         <label for="tipo_actividad_fisica" class="form-label">Tipo:</label>
@@ -31,7 +48,9 @@
                     </div>
                 </div>
 
-                <div x-show="activeTab === 'alimentacion'">
+                <div x-show="activeTab === 'alimentacion'"
+                     class="form-section"
+                     :class="{ 'active': activeTab === 'alimentacion' }">
                     <h3>Alimentación</h3>
                     <div class="form-group">
                         <label for="numero_comidas_diarias" class="form-label">Número de veces que come al día:</label>
@@ -47,7 +66,9 @@
                     </div>
                 </div>
 
-                <div x-show="activeTab === 'historial-medico'">
+                <div x-show="activeTab === 'historial-medico'"
+                     class="form-section"
+                     :class="{ 'active': activeTab === 'historial-medico' }">
                     <h3>Historial Médico</h3>
                     <div class="form-group">
                         <label for="cirugias" class="form-label">Cirugía(s):</label>

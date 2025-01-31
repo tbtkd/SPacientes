@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base/base.html" %}
 
 {% block title %}Nuevo Paciente{% endblock %}
 
@@ -9,7 +9,8 @@
         <form id="formPaciente" action="{{ url_for('pacientes.nuevo_paciente') }}" method="POST">
             <div class="form-group">
                 <label for="nombre" class="form-label">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" class="form-input" required>
+                <input type="text" id="nombre" name="nombre" class="form-input" required 
+                       value="{{ request.form.nombre or '' }}">
             </div>
             <div class="form-group">
                 <label for="apellido_paterno" class="form-label">Apellido Paterno:</label>
@@ -25,11 +26,19 @@
             </div>
             <div class="form-group">
                 <label for="telefono" class="form-label">Teléfono:</label>
-                <input type="tel" id="telefono" name="telefono" class="form-input" required>
+                <input type="tel" 
+                       id="telefono" 
+                       name="telefono" 
+                       class="form-input" 
+                       required 
+                       maxlength="10" 
+                       pattern="[0-9]{10}" 
+                       title="Por favor ingrese un número de teléfono válido de 10 dígitos">
             </div>
             <div class="form-group">
                 <label for="correo" class="form-label">Correo:</label>
-                <input type="email" id="correo" name="correo" class="form-input" required>
+                <input type="email" id="correo" name="correo" class="form-input" required
+                       value="{{ request.form.correo or '' }}">
             </div>
             <div class="form-group">
                 <label for="ciudad" class="form-label">Ciudad:</label>

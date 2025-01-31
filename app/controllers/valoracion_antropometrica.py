@@ -2,9 +2,9 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app.models.valoracion_antropometrica import ValoracionAntropometrica
 from app.models.paciente import Paciente
 
-valoracion = Blueprint('valoracion', __name__)
+valoracion = Blueprint('valoracion', __name__, url_prefix='/valoraciones')
 
-@valoracion.route('/pacientes/<int:paciente_id>/valoracion', methods=['GET', 'POST'])
+@valoracion.route('/paciente/<int:paciente_id>/nueva', methods=['GET', 'POST'])
 def nueva_valoracion(paciente_id):
     paciente = Paciente.obtener_por_id(paciente_id)
     if not paciente:
@@ -42,9 +42,9 @@ def nueva_valoracion(paciente_id):
         else:
             flash(mensaje, 'error')
 
-    return render_template('nueva_valoracion.html', paciente=paciente)
+    return render_template('valoraciones/nueva_valoracion.html', paciente=paciente)
 
-@valoracion.route('/pacientes/<int:paciente_id>/valoraciones')
+@valoracion.route('/paciente/<int:paciente_id>/lista')
 def lista_valoraciones(paciente_id):
     if paciente_id == 0:
         return redirect(url_for('valoracion.todas_valoraciones'))
@@ -55,12 +55,12 @@ def lista_valoraciones(paciente_id):
         return redirect(url_for('pacientes.lista_pacientes'))
 
     valoraciones = ValoracionAntropometrica.obtener_por_paciente(paciente_id)
-    return render_template('lista_valoraciones.html', paciente=paciente, valoraciones=valoraciones)
+    return render_template('valoraciones/lista_valoraciones.html', paciente=paciente, valoraciones=valoraciones)
 
-@valoracion.route('/valoraciones')
+@valoracion.route('/')
 def todas_valoraciones():
     valoraciones = ValoracionAntropometrica.obtener_todas()
-    return render_template('todas_valoraciones.html', valoraciones=valoraciones)
+    return render_template('valoraciones/todas_valoraciones.html', valoraciones=valoraciones)
 
 @valoracion.route('/valoraciones/<int:valoracion_id>')
 def detalle_valoracion(valoracion_id):
@@ -72,7 +72,7 @@ def detalle_valoracion(valoracion_id):
     paciente = Paciente.obtener_por_id(valoracion['paciente_id'])
     historial_valoraciones = ValoracionAntropometrica.obtener_por_paciente(valoracion['paciente_id'])
     
-    return render_template('detalle_valoracion.html', 
+    return render_template('valoraciones/detalle_valoracion.html', 
                             valoracion=valoracion, 
                             paciente=paciente,
                             historial_valoraciones=historial_valoraciones)
@@ -116,7 +116,7 @@ def editar_valoracion(valoracion_id):
         else:
             flash(mensaje, 'error')
 
-    return render_template('editar_valoracion.html', valoracion=valoracion, paciente=paciente)
+    return render_template('valoraciones/editar_valoracion.html', valoracion=valoracion, paciente=paciente)
 
 @valoracion.route('/valoraciones/<int:valoracion_id>/eliminar', methods=['POST'])
 def eliminar_valoracion(valoracion_id):
